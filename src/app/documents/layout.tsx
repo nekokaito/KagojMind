@@ -4,9 +4,9 @@ import { AppSidebar } from "@/components/dashboard/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { createClient } from "@/lib/supabase/server";
 
-export default async function DashboardLayout({
+export default async function DocumentsLayout({
   children,
-}: LayoutProps<"/dashboard">) {
+}: LayoutProps<"/documents">) {
   const supabase = await createClient();
 
   const {
