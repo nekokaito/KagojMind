@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { embedTexts } from "@/lib/ai/embeddings";
 import { chunkText } from "@/lib/documents/chunk-text";
 import { extractDocxText } from "@/lib/documents/extract-docx";
 import { extractPdfText } from "@/lib/documents/extract-pdf";
@@ -149,11 +150,13 @@ export async function POST(
       throw new Error("No readable text found in document");
     }
 
+    const embeddings = await embedTexts(chunks.map((chunk) => chunk.content));
+
     const rows = chunks.map((chunk, index) => ({
-      document_id: id,
       content: chunk.content,
       page_number: chunk.pageNumber,
       chunk_index: index,
+      embedding: embeddings[index],
     }));
 
     const { error: replaceError } = await supabase.rpc(
