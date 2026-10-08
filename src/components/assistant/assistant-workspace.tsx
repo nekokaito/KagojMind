@@ -18,6 +18,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { SidebarTrigger } from "../ui/sidebar";
 
 type Document = {
   id: string;
@@ -236,6 +237,7 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
       {/* Header */}
       <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center justify-between border-b bg-background/95 px-4 backdrop-blur sm:px-6">
         <div className="flex min-w-0 items-center gap-3">
+          <SidebarTrigger />
           <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <Sparkles className="size-4" />
           </div>

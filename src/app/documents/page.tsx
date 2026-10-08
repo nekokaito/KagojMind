@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 
 import { DocumentUpload } from "@/components/documents/document-upload";
 import { DocumentList } from "@/components/documents/document-list";
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 
 export default async function DocumentsPage() {
   const supabase = await createClient();
@@ -31,20 +32,23 @@ export default async function DocumentsPage() {
   }
 
   return (
-    <main className="space-y-8 p-6">
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Documents</h1>
+    <>
+      <DashboardHeader />
+      <main className="space-y-8 p-6">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight">Documents</h1>
 
-          <p className="mt-1 text-sm text-muted-foreground">
-            Manage your documents and build your knowledge base.
-          </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Manage your documents and build your knowledge base.
+            </p>
+          </div>
+
+          <DocumentUpload />
         </div>
 
-        <DocumentUpload />
-      </div>
-
-      <DocumentList documents={documents ?? []} />
-    </main>
+        <DocumentList documents={documents ?? []} />
+      </main>
+    </>
   );
 }

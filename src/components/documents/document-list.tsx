@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect } from "react";
 import { FileText, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -100,11 +101,10 @@ export function DocumentList({ documents }: DocumentListProps) {
 
   return (
     <div className="grid gap-4">
-      {documents.map((document) => (
-        <Card
-          key={document.id}
-          className="p-4 transition-colors hover:bg-muted/30"
-        >
+      {documents.map((document) => {
+        const isClickable = document.status === "ready";
+
+        const content = (
           <div className="flex items-center gap-4">
             <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-muted">
               <FileText className="size-5" />
@@ -139,8 +139,28 @@ export function DocumentList({ documents }: DocumentListProps) {
 
             <StatusBadge status={document.status} />
           </div>
-        </Card>
-      ))}
+        );
+
+        if (!isClickable) {
+          return (
+            <Card key={document.id} className="p-4">
+              {content}
+            </Card>
+          );
+        }
+
+        return (
+          <Link
+            key={document.id}
+            href={`/documents/${document.id}`}
+            className="block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <Card className="p-4 transition-all hover:-translate-y-0.5 hover:bg-muted/30 hover:shadow-sm">
+              {content}
+            </Card>
+          </Link>
+        );
+      })}
     </div>
   );
 }
