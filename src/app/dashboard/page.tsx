@@ -1,11 +1,62 @@
+import { redirect } from "next/navigation";
 import { FileCheck2, FileText, MessageSquare } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase/server";
+import { DocumentUpload } from "@/components/documents/document-upload";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { RecentDocuments } from "@/components/dashboard/recent-documents";
 import { StatCard } from "@/components/dashboard/stat-card";
 
-export default function DashboardPage() {
+export const dynamic = "force-dynamic";
+
+export default async function DashboardPage() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    redirect("/login");
+  }
+
+  const [documentsResult, indexedResult, queriesResult] = await Promise.all([
+    supabase
+      .from("documents")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id),
+
+    supabase
+      .from("documents")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .eq("status", "ready"),
+
+    supabase
+      .from("messages")
+      .select("id, conversations!inner(user_id)", {
+        count: "exact",
+        head: true,
+      })
+      .eq("role", "user")
+      .eq("conversations.user_id", user.id),
+  ]);
+
+  const queryErrors = [
+    documentsResult.error,
+    indexedResult.error,
+    queriesResult.error,
+  ].filter(Boolean);
+
+  if (queryErrors.length > 0) {
+    console.error("Dashboard statistics query failed:", queryErrors);
+  }
+
+  const documentsCount = documentsResult.count;
+  const indexedCount = indexedResult.count;
+  const queriesCount = queriesResult.count;
+
   return (
     <>
       <DashboardHeader />
@@ -29,31 +80,43 @@ export default function DashboardPage() {
                 </p>
               </div>
 
-              <Button>
-                <FileText />
-                Upload document
-              </Button>
+              <DocumentUpload />
             </section>
 
-            <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <section
+              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+              aria-label="Workspace statistics"
+            >
               <StatCard
                 title="Documents"
-                value="12"
-                description="Total documents"
+                value={documentsCount === null ? "—" : String(documentsCount)}
+                description={
+                  documentsResult.error
+                    ? "Unable to load document count"
+                    : "Total uploaded documents"
+                }
                 icon={FileText}
               />
 
               <StatCard
                 title="Indexed"
-                value="8"
-                description="Ready for AI search"
+                value={indexedCount === null ? "—" : String(indexedCount)}
+                description={
+                  indexedResult.error
+                    ? "Unable to load indexed count"
+                    : "Ready for AI search"
+                }
                 icon={FileCheck2}
               />
 
               <StatCard
                 title="AI queries"
-                value="42"
-                description="Questions asked"
+                value={queriesCount === null ? "—" : String(queriesCount)}
+                description={
+                  queriesResult.error
+                    ? "Unable to load query count"
+                    : "Questions asked"
+                }
                 icon={MessageSquare}
               />
             </section>
