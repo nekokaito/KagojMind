@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { DocumentSearch } from "@/components/documents/document-search";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { LanguageToggle } from "../i18n/language-toggle";
 
 export function DashboardHeader() {
   const { t } = useLanguage();
@@ -17,9 +18,14 @@ export function DashboardHeader() {
       <DocumentSearch />
 
       <div className="ml-auto flex items-center gap-1">
+        <LanguageToggle />
         <ThemeToggle />
 
-        <Button variant="ghost" size="icon" aria-label={t("header.notifications")}>
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label={t("header.notifications")}
+        >
           <Bell className="size-4" />
         </Button>
       </div>

@@ -52,7 +52,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <Link href="/" className="text-2xl font-bold tracking-tight">
-            KagojMind
+            কাগজMind
           </Link>
 
           <h1 className="mt-8 text-2xl font-semibold">{t("auth.welcome")}</h1>

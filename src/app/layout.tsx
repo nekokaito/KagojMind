@@ -14,7 +14,7 @@ const notoSans = Noto_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "KagojMind — Turn documents into knowledge.",
+  title: "কাগজ Mind — Turn documents into knowledge.",
   description:
     "AI-powered document intelligence. Upload documents, ask questions, and turn your files into knowledge.",
 };

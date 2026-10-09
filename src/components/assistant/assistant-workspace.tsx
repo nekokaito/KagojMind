@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { useLanguage } from "@/components/i18n/language-provider";
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -223,10 +225,10 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
             </p>
 
             <Button className="mt-6" asChild>
-              <a href="/documents">
+              <Link href="/documents">
                 <FileText className="mr-2 size-4" />
                 {t("assistant.goDocuments")}
-              </a>
+              </Link>
             </Button>
           </div>
         </div>
@@ -290,7 +292,7 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
                 <p className="text-xs text-muted-foreground">
                   {selectedDocument.page_count
                     ? `${selectedDocument.page_count} ${t("documents.pages")}`
-                     : t("common.file")} {" "}
+                    : t("common.file")}{" "}
                   · {t("assistant.readyForQuestions")}
                 </p>
               </div>
@@ -522,7 +524,9 @@ function SourceList({ sources }: { sources: Source[] }) {
   const { t } = useLanguage();
   return (
     <div className="mt-3">
-      <p className="mb-2 text-xs font-medium text-muted-foreground">{t("assistant.sources")}</p>
+      <p className="mb-2 text-xs font-medium text-muted-foreground">
+        {t("assistant.sources")}
+      </p>
 
       <div className="flex flex-wrap gap-2">
         {sources.map((source, index) => (

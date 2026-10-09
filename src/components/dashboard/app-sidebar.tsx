@@ -184,7 +184,7 @@ export function AppSidebar() {
           </div>
 
           <div className="flex flex-col">
-            <span className="font-semibold tracking-tight">KagojMind</span>
+            <span className="font-semibold tracking-tight">কাগজ Mind</span>
 
             <span className="text-[11px] text-muted-foreground">
               {t("brand.tagline")}
