@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/language-provider";
+
 import { useRef, useState } from "react";
 import type { ChangeEvent } from "react";
 import { FileText, Upload, X } from "lucide-react";
@@ -35,6 +37,7 @@ function getErrorMessage(error: unknown) {
 }
 
 export function DocumentUpload() {
+  const { t } = useLanguage();
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -59,30 +62,30 @@ export function DocumentUpload() {
     setError("");
 
     if (!ALLOWED_TYPES.includes(selectedFile.type)) {
-      const message = "Only PDF and DOCX files are supported.";
+      const message = t("upload.unsupported");
 
       setError(message);
-      toast.error("Unsupported file type", {
+      toast.error(t("upload.unsupportedTitle"), {
         description: message,
       });
       return;
     }
 
     if (selectedFile.size > MAX_FILE_SIZE) {
-      const message = "File size must be 20 MB or smaller.";
+      const message = t("upload.fileTooLarge");
 
       setError(message);
-      toast.error("File is too large", {
+      toast.error(t("upload.fileTooLargeTitle"), {
         description: message,
       });
       return;
     }
 
     if (selectedFile.size === 0) {
-      const message = "The selected file is empty.";
+      const message = t("upload.emptyFile");
 
       setError(message);
-      toast.error("Empty document", {
+      toast.error(t("upload.emptyFileTitle"), {
         description: message,
       });
       return;
@@ -111,10 +114,10 @@ export function DocumentUpload() {
     if (uploading) return;
 
     if (!file) {
-      const message = "Please select a document.";
+      const message = t("upload.selectFile");
 
       setError(message);
-      toast.error("No document selected", {
+      toast.error(t("upload.noFileTitle"), {
         description: message,
       });
       return;
@@ -123,20 +126,20 @@ export function DocumentUpload() {
     const documentTitle = title.trim();
 
     if (!documentTitle) {
-      const message = "Please enter a document title.";
+      const message = t("upload.enterTitle");
 
       setError(message);
-      toast.error("Document title required", {
+      toast.error(t("upload.titleRequired"), {
         description: message,
       });
       return;
     }
 
     if (documentTitle.length > 200) {
-      const message = "Document title must be 200 characters or less.";
+      const message = t("upload.titleTooLong");
 
       setError(message);
-      toast.error("Document title is too long", {
+      toast.error(t("upload.titleTooLongTitle"), {
         description: message,
       });
       return;
@@ -157,7 +160,7 @@ export function DocumentUpload() {
       } = await supabase.auth.getUser();
 
       if (userError || !user) {
-        throw new Error("Your session has expired. Please sign in again.");
+        throw new Error(t("upload.sessionExpired"));
       }
 
       const documentId = crypto.randomUUID();
@@ -204,7 +207,7 @@ export function DocumentUpload() {
         throw new Error(documentError.message);
       }
 
-      toast.success("Document uploaded", {
+      toast.success(t("upload.uploaded"), {
         description: `"${documentTitle}" is being processed.`,
       });
 
@@ -220,7 +223,7 @@ export function DocumentUpload() {
             const data = await response.json().catch(() => null);
 
             throw new Error(
-              data?.error ?? "Could not start document processing.",
+              data?.error ?? t("upload.processingStartedError"),
             );
           }
 
@@ -232,9 +235,9 @@ export function DocumentUpload() {
             processingError,
           );
 
-          toast.error("Processing could not start", {
+          toast.error(t("upload.processingFailedTitle"), {
             description:
-              "Your document was uploaded, but processing could not be started. Check its status and try again.",
+              t("upload.processingFailedDescription"),
             duration: 6000,
           });
 
@@ -247,7 +250,7 @@ export function DocumentUpload() {
 
       setError(message);
 
-      toast.error("Document upload failed", {
+      toast.error(t("upload.failedTitle"), {
         description: message,
         duration: 6000,
       });
@@ -267,7 +270,7 @@ export function DocumentUpload() {
     <>
       <Button onClick={() => setOpen(true)} disabled={uploading}>
         <Upload className="size-4" />
-        Upload document
+        {t("upload.uploadButton")} 
       </Button>
 
       <Dialog
@@ -284,10 +287,10 @@ export function DocumentUpload() {
       >
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>Upload document</DialogTitle>
+            <DialogTitle>{t("upload.dialogTitle")}</DialogTitle>
 
             <DialogDescription>
-              Upload a PDF or DOCX file to your KagojMind workspace.
+              {t("upload.dialogDescription")}
             </DialogDescription>
           </DialogHeader>
 
@@ -321,14 +324,14 @@ export function DocumentUpload() {
                 <Upload className="size-5" />
               </div>
 
-              <p className="font-medium">Drop your document here</p>
+              <p className="font-medium">{t("upload.dropHere")}</p>
 
               <p className="mt-1 text-sm text-muted-foreground">
-                or click to browse
+                {t("upload.orBrowse")}
               </p>
 
               <p className="mt-4 text-xs text-muted-foreground">
-                PDF or DOCX · Maximum 20 MB
+                {t("upload.supportedFiles")}
               </p>
 
               <Input
@@ -360,7 +363,7 @@ export function DocumentUpload() {
                     type="button"
                     variant="ghost"
                     size="icon"
-                    aria-label="Remove selected document"
+                    aria-label={t("upload.removeSelected")}
                     onClick={reset}
                   >
                     <X className="size-4" />
@@ -377,7 +380,7 @@ export function DocumentUpload() {
                   id="document-title"
                   value={title}
                   onChange={(event) => setTitle(event.target.value)}
-                  placeholder="Employment Contract"
+                  placeholder={t("upload.titlePlaceholder")}
                   maxLength={200}
                   disabled={uploading}
                 />
@@ -398,7 +401,7 @@ export function DocumentUpload() {
                 onClick={() => void handleUpload()}
                 disabled={uploading}
               >
-                {uploading ? "Uploading..." : "Upload document"}
+                {uploading ? t("upload.uploading") : t("upload.uploadButton")}
               </Button>
             </div>
           )}

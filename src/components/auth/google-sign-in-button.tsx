@@ -1,11 +1,14 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/language-provider";
+
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 
 export function GoogleSignInButton() {
+  const { t } = useLanguage();
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const [error, setError] = useState("");
@@ -63,7 +66,7 @@ export function GoogleSignInButton() {
           />
         </svg>
 
-        {loading ? "Redirecting to Google..." : "Continue with Google"}
+        {loading ? t("auth.redirectingGoogle") : t("auth.google")}
       </Button>
 
       {error && (

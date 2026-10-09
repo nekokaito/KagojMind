@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/language-provider";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -33,6 +35,7 @@ type DocumentViewerProps = {
 };
 
 export function DocumentViewer({ document, signedUrl }: DocumentViewerProps) {
+  const { t, language } = useLanguage();
   const router = useRouter();
 
   const isPdf =
@@ -51,7 +54,7 @@ export function DocumentViewer({ document, signedUrl }: DocumentViewerProps) {
           <Button variant="ghost" size="icon" asChild className="shrink-0">
             <Link href="/documents">
               <ArrowLeft className="size-4" />
-              <span className="sr-only">Back to documents</span>
+              <span className="sr-only">{t("documents.backToDocuments")}</span>
             </Link>
           </Button>
 
@@ -76,12 +79,12 @@ export function DocumentViewer({ document, signedUrl }: DocumentViewerProps) {
 
         <div className="flex items-center gap-2">
           <Badge variant="secondary" className="hidden sm:inline-flex">
-            Ready
+            {t("documents.ready")}
           </Badge>
 
           <Button variant="outline" size="sm" onClick={handleAskAI}>
             <Bot className="mr-2 size-4" />
-            Ask AI
+            {t("assistant.title")}
           </Button>
 
           <Button variant="ghost" size="icon" asChild>
@@ -92,13 +95,13 @@ export function DocumentViewer({ document, signedUrl }: DocumentViewerProps) {
               rel="noreferrer"
             >
               <Download className="size-4" />
-              <span className="sr-only">Download document</span>
+              <span className="sr-only">{t("documents.download")}</span>
             </a>
           </Button>
 
           <Button variant="ghost" size="icon">
             <MoreHorizontal className="size-4" />
-            <span className="sr-only">More options</span>
+            <span className="sr-only">{t("documents.moreOptions")}</span>
           </Button>
         </div>
       </header>
@@ -122,18 +125,17 @@ export function DocumentViewer({ document, signedUrl }: DocumentViewerProps) {
                   </div>
 
                   <h2 className="mt-5 text-lg font-semibold">
-                    Preview unavailable
+                    {t("documents.previewUnavailable")}
                   </h2>
 
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    DOCX files are supported by KagojMind for AI processing, but
-                    browser preview is not available yet.
+                    {t("documents.previewUnavailableDescription")}
                   </p>
 
                   <Button className="mt-5" asChild>
                     <a href={signedUrl} download={document.file_name}>
                       <Download className="mr-2 size-4" />
-                      Download document
+                      {t("documents.download")}
                     </a>
                   </Button>
                 </div>
@@ -145,26 +147,26 @@ export function DocumentViewer({ document, signedUrl }: DocumentViewerProps) {
         {/* Details */}
         <aside className="hidden w-72 shrink-0 border-l bg-background xl:block">
           <div className="p-5">
-            <h2 className="text-sm font-semibold">Document details</h2>
+            <h2 className="text-sm font-semibold">{t("documents.details")}</h2>
 
             <div className="mt-5 space-y-5">
-              <Detail label="File name" value={document.file_name} />
+              <Detail label={t("documents.fileName")} value={document.file_name} />
 
               <Detail
-                label="Type"
-                value={isPdf ? "PDF document" : "DOCX document"}
+                label={t("documents.type")}
+                value={isPdf ? t("documents.pdfDocument") : t("documents.docxDocument")}
               />
 
               <Detail
-                label="Pages"
+                label={t("documents.pagesLabel")}
                 value={document.page_count ? `${document.page_count}` : "—"}
               />
 
-              <Detail label="Status" value="Ready" />
+              <Detail label={t("documents.status")} value={t("documents.ready")} />
 
               <Detail
-                label="Uploaded"
-                value={formatDate(document.created_at)}
+                label={t("documents.uploadedAt")}
+                value={formatDate(document.created_at, language)}
               />
             </div>
           </div>
@@ -184,8 +186,8 @@ function Detail({ label, value }: { label: string; value: string }) {
   );
 }
 
-function formatDate(value: string) {
-  return new Intl.DateTimeFormat("en", {
+function formatDate(value: string, language: "en" | "bn") {
+  return new Intl.DateTimeFormat(language === "bn" ? "bn-BD" : "en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",

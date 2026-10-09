@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/language-provider";
+
 import { useState } from "react";
 import { Lock, Mail, User } from "lucide-react";
 import { toast } from "sonner";
@@ -28,6 +30,7 @@ type ApiResponse = {
 };
 
 export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
+  const { t } = useLanguage();
   const [fullName, setFullName] = useState(profile.fullName);
 
   const [currentPassword, setCurrentPassword] = useState("");
@@ -46,15 +49,15 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
     const name = fullName.trim();
 
     if (!name) {
-      toast.error("Name is required", {
-        description: "Please enter your full name.",
+      toast.error(t("settings.nameRequired"), {
+        description: t("settings.enterName"),
       });
       return;
     }
 
     if (name.length > 100) {
-      toast.error("Name is too long", {
-        description: "Your name must be 100 characters or less.",
+      toast.error(t("settings.nameTooLong"), {
+        description: t("settings.nameLimit"),
       });
       return;
     }
@@ -84,13 +87,13 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
 
       setFullName(data.profile.fullName);
 
-      toast.success("Profile updated", {
-        description: "Your changes have been saved successfully.",
+      toast.success(t("settings.profileUpdated"), {
+        description: t("settings.savedSuccessfully"),
       });
     } catch (error) {
       console.error("Profile update failed:", error);
 
-      toast.error("Couldn't update profile", {
+      toast.error(t("settings.profileUpdateFailed"), {
         description:
           error instanceof Error ? error.message : "Please try again.",
       });
@@ -103,37 +106,36 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
     event.preventDefault();
 
     if (!currentPassword) {
-      toast.error("Current password required", {
-        description: "Enter your current password to continue.",
+      toast.error(t("settings.currentPasswordRequired"), {
+        description: t("settings.enterCurrentPassword"),
       });
       return;
     }
 
     if (newPassword.length < 8) {
-      toast.error("Password is too short", {
-        description: "Your new password must contain at least 8 characters.",
+      toast.error(t("settings.passwordTooShort"), {
+        description: t("settings.passwordMin"),
       });
       return;
     }
 
     if (newPassword.length > 72) {
-      toast.error("Password is too long", {
-        description: "Your new password must contain 72 characters or less.",
+      toast.error(t("settings.passwordTooLong"), {
+        description: t("settings.passwordMax"),
       });
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      toast.error("Passwords don't match", {
-        description: "Confirm your new password correctly.",
+      toast.error(t("settings.passwordMismatch"), {
+        description: t("settings.confirmPasswordCorrectly"),
       });
       return;
     }
 
     if (currentPassword === newPassword) {
-      toast.error("Choose a new password", {
-        description:
-          "Your new password must differ from your current password.",
+      toast.error(t("settings.chooseNewPassword"), {
+        description: t("settings.passwordMustDiffer"),
       });
       return;
     }
@@ -162,13 +164,13 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
       setNewPassword("");
       setConfirmPassword("");
 
-      toast.success("Password changed", {
-        description: "Your new password has been saved successfully.",
+      toast.success(t("settings.passwordChanged"), {
+        description: t("settings.passwordSaved"),
       });
     } catch (error) {
       console.error("Password change failed:", error);
 
-      toast.error("Couldn't change password", {
+      toast.error(t("settings.passwordChangeFailed"), {
         description:
           error instanceof Error ? error.message : "Please try again.",
       });
@@ -181,10 +183,13 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
     <div className="space-y-8">
       {/* Page heading */}
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">Settings</h1>
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight">{t("settings.title")}</h1>
+          <p className="mt-1 text-sm text-muted-foreground">{t("settings.subtitle")}</p>
+        </div>
 
         <p className="mt-2 text-sm text-muted-foreground">
-          Manage your account and security preferences.
+          {t("settings.manageDescription")}
         </p>
       </div>
 
@@ -197,10 +202,10 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
             </div>
 
             <div>
-              <h2 className="font-semibold">Profile</h2>
+              <h2 className="font-semibold">{t("settings.profile")}</h2>
 
               <p className="text-sm text-muted-foreground">
-                Update your personal information.
+                {t("settings.personalInfoDescription")}
               </p>
             </div>
           </div>
@@ -218,11 +223,11 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
 
               <div className="min-w-0">
                 <p className="truncate font-medium">
-                  {fullName || "Your profile"}
+                  {fullName || t("settings.yourProfile")}
                 </p>
 
                 <p className="text-sm text-muted-foreground">
-                  Your profile information is private.
+                  {t("settings.privateProfile")}
                 </p>
               </div>
             </div>
@@ -230,13 +235,13 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
             {/* Profile fields */}
             <div className="grid gap-5 md:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="full-name">Full name</Label>
+                <Label htmlFor="full-name">{t("settings.fullName")}</Label>
 
                 <Input
                   id="full-name"
                   value={fullName}
                   onChange={(event) => setFullName(event.target.value)}
-                  placeholder="Your name"
+                  placeholder={t("settings.yourName")}
                   maxLength={100}
                   autoComplete="name"
                   disabled={isSavingProfile}
@@ -244,7 +249,7 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t("settings.email")}</Label>
 
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -265,7 +270,7 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
             </div>
 
             <Button type="submit" disabled={isSavingProfile}>
-              {isSavingProfile ? "Saving..." : "Save changes"}
+              {isSavingProfile ? t("common.saving") : t("common.save")}
             </Button>
           </form>
         </CardContent>
@@ -280,10 +285,10 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
             </div>
 
             <div>
-              <h2 className="font-semibold">Password</h2>
+              <h2 className="font-semibold">{t("settings.password")}</h2>
 
               <p className="text-sm text-muted-foreground">
-                Keep your KagojMind account secure.
+                {t("settings.keepSecure")}
               </p>
             </div>
           </div>
@@ -294,7 +299,7 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
         <CardContent className="pt-6">
           <form onSubmit={changePassword} className="max-w-xl space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="current-password">Current password</Label>
+              <Label htmlFor="current-password">{t("settings.currentPassword")}</Label>
 
               <Input
                 id="current-password"
@@ -307,7 +312,7 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="new-password">New password</Label>
+              <Label htmlFor="new-password">{t("settings.newPassword")}</Label>
 
               <Input
                 id="new-password"
@@ -319,12 +324,12 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
               />
 
               <p className="text-xs text-muted-foreground">
-                Use at least 8 characters.
+                {t("settings.useEightChars")}
               </p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirm-password">Confirm new password</Label>
+              <Label htmlFor="confirm-password">{t("settings.confirmPassword")}</Label>
 
               <Input
                 id="confirm-password"
@@ -337,7 +342,7 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
             </div>
 
             <Button type="submit" disabled={isChangingPassword}>
-              {isChangingPassword ? "Changing password..." : "Change password"}
+              {isChangingPassword ? t("settings.changingPassword") : t("settings.changePassword")}
             </Button>
           </form>
         </CardContent>

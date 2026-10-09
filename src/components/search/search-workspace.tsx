@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/language-provider";
+
 import Link from "next/link";
 import { useState } from "react";
 import { ArrowRight, FileText, Loader2, Search, Sparkles } from "lucide-react";
@@ -30,8 +32,8 @@ type SearchWorkspaceProps = {
   initialQuery?: string;
 };
 
-function formatSimilarity(similarity: number) {
-  return `${Math.round(similarity * 100)}% relevant`;
+function formatSimilarity(similarity: number, relevantLabel: string) {
+  return `${Math.round(similarity * 100)}% ${relevantLabel}`;
 }
 
 function getPreview(content: string) {
@@ -45,6 +47,7 @@ function getPreview(content: string) {
 }
 
 export function SearchWorkspace({ initialQuery = "" }: SearchWorkspaceProps) {
+  const { t } = useLanguage();
   const [query, setQuery] = useState(initialQuery);
   const [results, setResults] = useState<SearchResult[]>([]);
   const [searchedQuery, setSearchedQuery] = useState("");
@@ -108,7 +111,7 @@ export function SearchWorkspace({ initialQuery = "" }: SearchWorkspaceProps) {
           <Input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Ask something about your documents..."
+            placeholder={t("search.askPlaceholder")}
             className="h-11 pl-9"
             maxLength={500}
           />
@@ -135,7 +138,7 @@ export function SearchWorkspace({ initialQuery = "" }: SearchWorkspaceProps) {
           <div className="mb-4 flex items-center justify-between gap-4">
             <div className="min-w-0">
               <p className="text-sm text-muted-foreground">
-                Search results for
+                {t("search.resultsFor")}
               </p>
 
               <p className="mt-1 truncate font-medium">
@@ -144,7 +147,7 @@ export function SearchWorkspace({ initialQuery = "" }: SearchWorkspaceProps) {
             </div>
 
             <Badge variant="secondary" className="shrink-0">
-              {results.length} {results.length === 1 ? "result" : "results"}
+              {results.length} {results.length === 1 ? t("search.result") : t("search.results")}
             </Badge>
           </div>
 
@@ -154,11 +157,10 @@ export function SearchWorkspace({ initialQuery = "" }: SearchWorkspaceProps) {
                 <Sparkles className="size-5" />
               </div>
 
-              <h3 className="mt-4 font-medium">No relevant results</h3>
+              <h3 className="mt-4 font-medium">{t("search.noRelevantResults")}</h3>
 
               <p className="mt-1 max-w-md text-sm text-muted-foreground">
-                Try using different words or asking your question in another
-                way.
+                {t("search.tryDifferent")}
               </p>
             </Card>
           ) : (
@@ -184,7 +186,7 @@ export function SearchWorkspace({ initialQuery = "" }: SearchWorkspaceProps) {
                           </Link>
 
                           <Badge variant="secondary" className="text-xs">
-                            {formatSimilarity(result.similarity)}
+                            {formatSimilarity(result.similarity, t("search.relevantPercent"))}
                           </Badge>
                         </div>
 
@@ -225,19 +227,18 @@ export function SearchWorkspace({ initialQuery = "" }: SearchWorkspaceProps) {
             </div>
 
             <h2 className="mt-5 text-lg font-semibold">
-              Search your knowledge base
+              {t("search.searchKnowledge")}
             </h2>
 
             <p className="mt-2 max-w-lg text-sm leading-6 text-muted-foreground">
-              Ask natural-language questions and find relevant information
-              across all your uploaded documents.
+              {t("search.searchDescription")}
             </p>
 
             <div className="mt-6 flex flex-wrap justify-center gap-2">
               {[
-                "What is the main objective?",
-                "Find the research methodology",
-                "What are the important dates?",
+                t("search.suggestionObjective"),
+                t("search.suggestionMethodology"),
+                t("search.suggestionDates"),
               ].map((suggestion) => (
                 <button
                   key={suggestion}

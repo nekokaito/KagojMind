@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/language-provider";
+
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 
 export default function RegisterPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const supabase = createClient();
 
@@ -51,7 +54,7 @@ export default function RegisterPage() {
       }
 
       setSuccess(
-        "Account created. Please check your email to confirm your account.",
+        t("auth.confirmEmail"),
       );
     } catch {
       setError("Something went wrong. Please try again.");
@@ -68,10 +71,10 @@ export default function RegisterPage() {
             KagojMind
           </Link>
 
-          <h1 className="mt-8 text-2xl font-semibold">Create your account</h1>
+          <h1 className="mt-8 text-2xl font-semibold">{t("auth.registerTitle")}</h1>
 
           <p className="mt-2 text-sm text-muted-foreground">
-            Start turning your documents into knowledge.
+            {t("auth.registerSubtitle")}
           </p>
         </div>
 
@@ -85,7 +88,7 @@ export default function RegisterPage() {
 
             <div className="relative flex justify-center">
               <span className="bg-card px-3 text-xs text-muted-foreground">
-                Or register with email
+                {t("auth.or")}
               </span>
             </div>
           </div>
@@ -93,12 +96,12 @@ export default function RegisterPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
               <label htmlFor="fullName" className="text-sm font-medium">
-                Full name
+                {t("auth.fullName")}
               </label>
 
               <Input
                 id="fullName"
-                placeholder="Your full name"
+                placeholder={t("auth.fullName")}
                 autoComplete="name"
                 value={fullName}
                 onChange={(event) => setFullName(event.target.value)}
@@ -110,7 +113,7 @@ export default function RegisterPage() {
 
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium">
-                Email
+                {t("auth.email")}
               </label>
 
               <Input
@@ -127,13 +130,13 @@ export default function RegisterPage() {
 
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm font-medium">
-                Password
+                {t("auth.password")}
               </label>
 
               <Input
                 id="password"
                 type="password"
-                placeholder="Minimum 8 characters"
+                placeholder={t("auth.minimumPassword")}
                 autoComplete="new-password"
                 minLength={8}
                 value={password}
@@ -162,17 +165,17 @@ export default function RegisterPage() {
             )}
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Creating account..." : "Create account"}
+              {loading ? t("auth.creatingAccount") : t("auth.createAccountButton")}
             </Button>
           </form>
 
           <p className="text-center text-sm text-muted-foreground">
-            Already have an account?{" "}
+            {t("auth.haveAccount")}{" "}
             <Link
               href="/login"
               className="font-medium text-foreground underline-offset-4 hover:underline"
             >
-              Sign in
+              {t("auth.signIn")}
             </Link>
           </p>
         </div>

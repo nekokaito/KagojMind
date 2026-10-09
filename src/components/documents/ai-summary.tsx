@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/language-provider";
+
 import { useState } from "react";
 import { CalendarDays, Check, Loader2, Sparkles, Users } from "lucide-react";
 
@@ -27,6 +29,7 @@ type SummaryResponse = {
 };
 
 export function AiSummary({ documentId }: AiSummaryProps) {
+  const { t } = useLanguage();
   const [summary, setSummary] = useState<Summary | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -79,11 +82,10 @@ export function AiSummary({ documentId }: AiSummaryProps) {
             </div>
 
             <div className="min-w-0 flex-1">
-              <h2 className="font-semibold">AI Summary</h2>
+              <h2 className="font-semibold">{t("summary.title")}</h2>
 
               <p className="mt-1 text-sm text-muted-foreground">
-                Get a concise overview and the most important information from
-                this document.
+                {t("summary.intro")}
               </p>
             </div>
           </div>
@@ -97,7 +99,7 @@ export function AiSummary({ documentId }: AiSummaryProps) {
 
                 <div>
                   <p className="text-sm font-medium">
-                    AI is taking a little break
+                    {t("summary.aiBusy")}
                   </p>
 
                   <p className="mt-1 text-sm leading-5 text-muted-foreground">
@@ -116,12 +118,12 @@ export function AiSummary({ documentId }: AiSummaryProps) {
             {isLoading ? (
               <>
                 <Loader2 className="size-4 animate-spin" />
-                Analyzing document...
+                {t("summary.analyzing")}
               </>
             ) : (
               <>
                 <Sparkles className="size-4" />
-                Generate Summary
+                {t("summary.generateButton")}
               </>
             )}
           </Button>
@@ -140,10 +142,10 @@ export function AiSummary({ documentId }: AiSummaryProps) {
             </div>
 
             <div>
-              <h2 className="font-semibold">AI Summary</h2>
+              <h2 className="font-semibold">{t("summary.title")}</h2>
 
               <p className="mt-1 text-sm text-muted-foreground">
-                Generated from your document
+                {t("summary.generatedFromDocument")}
               </p>
             </div>
           </div>
@@ -154,7 +156,7 @@ export function AiSummary({ documentId }: AiSummaryProps) {
         <Separator className="my-6" />
 
         <section>
-          <h3 className="text-sm font-semibold">Overview</h3>
+          <h3 className="text-sm font-semibold">{t("summary.overview")}</h3>
 
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
             {summary.overview}
@@ -163,7 +165,7 @@ export function AiSummary({ documentId }: AiSummaryProps) {
 
         {summary.keyPoints.length > 0 && (
           <section className="mt-6">
-            <h3 className="text-sm font-semibold">Key Points</h3>
+            <h3 className="text-sm font-semibold">{t("summary.keyPoints")}</h3>
 
             <div className="mt-3 space-y-3">
               {summary.keyPoints.map((point, index) => (
@@ -184,7 +186,7 @@ export function AiSummary({ documentId }: AiSummaryProps) {
             <div className="flex items-center gap-2">
               <CalendarDays className="size-4" />
 
-              <h3 className="text-sm font-semibold">Important Dates</h3>
+              <h3 className="text-sm font-semibold">{t("summary.importantDates")}</h3>
             </div>
 
             <div className="mt-3 space-y-2">
@@ -205,7 +207,7 @@ export function AiSummary({ documentId }: AiSummaryProps) {
             <div className="flex items-center gap-2">
               <Users className="size-4" />
 
-              <h3 className="text-sm font-semibold">Key Entities</h3>
+              <h3 className="text-sm font-semibold">{t("summary.keyEntities")}</h3>
             </div>
 
             <div className="mt-3 flex flex-wrap gap-2">
@@ -227,12 +229,12 @@ export function AiSummary({ documentId }: AiSummaryProps) {
           {isLoading ? (
             <>
               <Loader2 className="size-4 animate-spin" />
-              Regenerating...
+              {t("summary.regenerating")}
             </>
           ) : (
             <>
               <Sparkles className="size-4" />
-              Regenerate
+              {t("summary.regenerate")}
             </>
           )}
         </Button>

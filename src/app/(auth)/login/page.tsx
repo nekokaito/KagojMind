@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/language-provider";
+
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 
 export default function LoginPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const supabase = createClient();
 
@@ -52,10 +55,10 @@ export default function LoginPage() {
             KagojMind
           </Link>
 
-          <h1 className="mt-8 text-2xl font-semibold">Welcome back</h1>
+          <h1 className="mt-8 text-2xl font-semibold">{t("auth.welcome")}</h1>
 
           <p className="mt-2 text-sm text-muted-foreground">
-            Sign in to your knowledge workspace.
+            {t("auth.loginSubtitle")}
           </p>
         </div>
 
@@ -69,7 +72,7 @@ export default function LoginPage() {
 
             <div className="relative flex justify-center">
               <span className="bg-card px-3 text-xs text-muted-foreground">
-                Or continue with email
+                {t("auth.or")}
               </span>
             </div>
           </div>
@@ -77,7 +80,7 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium">
-                Email
+                {t("auth.email")}
               </label>
 
               <Input
@@ -94,7 +97,7 @@ export default function LoginPage() {
 
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm font-medium">
-                Password
+                {t("auth.password")}
               </label>
 
               <Input
@@ -119,17 +122,17 @@ export default function LoginPage() {
             )}
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing in..." : "Sign in"}
+              {loading ? t("auth.signingIn") : t("auth.signIn")}
             </Button>
           </form>
 
           <p className="text-center text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
+            {t("auth.noAccount")}{" "}
             <Link
               href="/register"
               className="font-medium text-foreground underline-offset-4 hover:underline"
             >
-              Create one
+              {t("auth.createAccount")}
             </Link>
           </p>
         </div>

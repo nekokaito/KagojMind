@@ -1,3 +1,4 @@
+import { TranslatedText } from "@/components/i18n/translated-text";
 import { redirect } from "next/navigation";
 
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
@@ -27,10 +28,10 @@ export default async function SearchPage({
 
       <main className="mx-auto w-full max-w-5xl p-6 md:p-8">
         <div className="mb-8">
-          <h1 className="text-2xl font-semibold tracking-tight">Search</h1>
+          <h1 className="text-2xl font-semibold tracking-tight"><TranslatedText k="search.title" /></h1>
 
           <p className="mt-1 text-sm text-muted-foreground">
-            Search across everything in your knowledge base.
+            <TranslatedText k="search.pageDescription" />
           </p>
         </div>
 

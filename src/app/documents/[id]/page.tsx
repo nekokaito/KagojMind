@@ -1,3 +1,4 @@
+import { TranslatedText } from "@/components/i18n/translated-text";
 import { notFound, redirect } from "next/navigation";
 import { AiSummary } from "@/components/documents/ai-summary";
 
@@ -47,10 +48,10 @@ export default async function DocumentPage({
     return (
       <div className="flex min-h-svh items-center justify-center p-6">
         <div className="text-center">
-          <h1 className="text-lg font-semibold">Document is not ready</h1>
+          <h1 className="text-lg font-semibold"><TranslatedText k="documents.notReady" /></h1>
 
           <p className="mt-2 text-sm text-muted-foreground">
-            This document is still being processed.
+            <TranslatedText k="documents.stillProcessing" />
           </p>
         </div>
       </div>

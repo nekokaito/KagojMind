@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/language-provider";
+
 import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -7,6 +9,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 
 export function DocumentSearch() {
+  const { t } = useLanguage();
   const router = useRouter();
 
   const [query, setQuery] = useState("");
@@ -31,7 +34,7 @@ export function DocumentSearch() {
         <Input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search your documents..."
+          placeholder={t("search.placeholder")}
           className="pl-9"
         />
       </div>

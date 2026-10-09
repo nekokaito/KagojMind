@@ -1,3 +1,4 @@
+import { TranslatedText } from "@/components/i18n/translated-text";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, Folder } from "lucide-react";
@@ -66,7 +67,7 @@ export default async function CollectionPage({
           >
             <ArrowLeft className="size-4" />
 
-            <span>Collections</span>
+            <span><TranslatedText k="collections.title" /></span>
           </Link>
 
           <div className="mx-4 h-5 w-px bg-border" />

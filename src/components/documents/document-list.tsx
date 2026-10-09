@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/language-provider";
+
 import Link from "next/link";
 import { useEffect } from "react";
 import { FileText, Loader2 } from "lucide-react";
@@ -23,9 +25,9 @@ type DocumentListProps = {
   documents: Document[];
 };
 
-function formatFileSize(size: number | null) {
+function formatFileSize(size: number | null, unknownSizeLabel: string) {
   if (!size) {
-    return "Unknown size";
+    return unknownSizeLabel;
   }
 
   if (size < 1024 * 1024) {
@@ -43,25 +45,26 @@ function getFileType(fileType: string) {
   return "DOCX";
 }
 
-function StatusBadge({ status }: { status: Document["status"] }) {
+function StatusBadge({ status, t }: { status: Document["status"]; t: (key: import("@/lib/i18n/translations").TranslationKey) => string }) {
   switch (status) {
     case "processing":
       return (
         <Badge variant="secondary" className="gap-1.5">
           <Loader2 className="size-3 animate-spin" />
-          Processing
+          {t("documents.processing")}
         </Badge>
       );
 
     case "ready":
-      return <Badge>Ready</Badge>;
+      return <Badge>{t("documents.ready")}</Badge>;
 
     case "error":
-      return <Badge variant="destructive">Error</Badge>;
+      return <Badge variant="destructive">{t("documents.error")}</Badge>;
   }
 }
 
 export function DocumentList({ documents }: DocumentListProps) {
+  const { t } = useLanguage();
   const router = useRouter();
 
   const hasProcessingDocuments = documents.some(
@@ -89,11 +92,10 @@ export function DocumentList({ documents }: DocumentListProps) {
           <FileText className="size-5" />
         </div>
 
-        <h3 className="font-medium">No documents yet</h3>
+        <h3 className="font-medium">{t("documents.noDocumentsYet")}</h3>
 
         <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-          Upload your first PDF or DOCX document to start building your
-          knowledge base.
+          {t("documents.noDocumentsDescriptionLong")}
         </p>
       </Card>
     );
@@ -122,7 +124,7 @@ export function DocumentList({ documents }: DocumentListProps) {
 
                 <span>·</span>
 
-                <span>{formatFileSize(document.file_size)}</span>
+                <span>{formatFileSize(document.file_size, t("documents.unknownSize"))}</span>
 
                 {document.page_count && (
                   <>
@@ -130,14 +132,14 @@ export function DocumentList({ documents }: DocumentListProps) {
 
                     <span>
                       {document.page_count}{" "}
-                      {document.page_count === 1 ? "page" : "pages"}
+                      {document.page_count === 1 ? t("documents.page") : t("documents.pages")}
                     </span>
                   </>
                 )}
               </div>
             </div>
 
-            <StatusBadge status={document.status} />
+            <StatusBadge status={document.status} t={t} />
           </div>
         );
 

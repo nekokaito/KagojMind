@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/language-provider";
+
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
@@ -59,6 +61,7 @@ type AssistantWorkspaceProps = {
 };
 
 export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
+  const { t } = useLanguage();
   const [selectedDocumentId, setSelectedDocumentId] = useState(
     documents[0]?.id ?? "",
   );
@@ -197,9 +200,9 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
             </div>
 
             <div>
-              <h1 className="text-sm font-semibold">AI Assistant</h1>
+              <h1 className="text-sm font-semibold">{t("assistant.title")}</h1>
               <p className="text-xs text-muted-foreground">
-                Ask questions about your documents
+                {t("assistant.askAboutDocuments")}
               </p>
             </div>
           </div>
@@ -212,18 +215,17 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
             </div>
 
             <h2 className="text-xl font-semibold tracking-tight">
-              No documents ready yet
+              {t("assistant.noDocumentReady")}
             </h2>
 
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              Upload and process a PDF or DOCX document first. Once it is ready,
-              you can ask KagojMind questions about it.
+              {t("assistant.uploadFirst")}
             </p>
 
             <Button className="mt-6" asChild>
               <a href="/documents">
                 <FileText className="mr-2 size-4" />
-                Go to Documents
+                {t("assistant.goDocuments")}
               </a>
             </Button>
           </div>
@@ -243,10 +245,10 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
           </div>
 
           <div className="min-w-0">
-            <h1 className="text-sm font-semibold">AI Assistant</h1>
+            <h1 className="text-sm font-semibold">{t("assistant.title")}</h1>
 
             <p className="hidden text-xs text-muted-foreground sm:block">
-              Ask questions and explore your documents
+              {t("assistant.exploreDocuments")}
             </p>
           </div>
         </div>
@@ -257,7 +259,7 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
             value={selectedDocumentId}
             onChange={(event) => handleDocumentChange(event.target.value)}
             className="h-9 max-w-[190px] appearance-none rounded-lg border bg-background py-1 pl-3 pr-8 text-sm font-medium outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring/20 sm:max-w-[280px]"
-            aria-label="Select document"
+            aria-label={t("assistant.selectDocument")}
           >
             {documents.map((document) => (
               <option key={document.id} value={document.id}>
@@ -287,9 +289,9 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
 
                 <p className="text-xs text-muted-foreground">
                   {selectedDocument.page_count
-                    ? `${selectedDocument.page_count} pages`
-                    : "Document"}{" "}
-                  · Ready for questions
+                    ? `${selectedDocument.page_count} ${t("documents.pages")}`
+                     : t("common.file")} {" "}
+                  · {t("assistant.readyForQuestions")}
                 </p>
               </div>
 
@@ -297,7 +299,7 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
                 variant="secondary"
                 className="hidden shrink-0 sm:inline-flex"
               >
-                Ready
+                {t("documents.ready")}
               </Badge>
             </div>
           )}
@@ -328,7 +330,7 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
                     <div className="rounded-2xl border bg-muted/30 px-4 py-3">
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Loader2 className="size-4 animate-spin" />
-                        <span>Reading your document...</span>
+                        <span>{t("assistant.reading")}</span>
                       </div>
                     </div>
                   </div>
@@ -364,7 +366,7 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
                 placeholder={
                   selectedDocument
                     ? `Ask about ${selectedDocument.title}...`
-                    : "Ask a question..."
+                    : t("assistant.askQuestion")
                 }
                 disabled={isLoading}
                 rows={2}
@@ -374,7 +376,7 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
 
               <div className="flex items-center justify-between px-2 pb-1">
                 <p className="hidden text-xs text-muted-foreground sm:block">
-                  Enter to send · Shift + Enter for a new line
+                  {t("assistant.enterToSend")}
                 </p>
 
                 <Button
@@ -389,13 +391,13 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
                     <Send className="size-4" />
                   )}
 
-                  <span className="sr-only">Send message</span>
+                  <span className="sr-only">{t("assistant.send")}</span>
                 </Button>
               </div>
             </form>
 
             <p className="mt-2 text-center text-[11px] text-muted-foreground">
-              KagojMind answers using the selected document.
+              {t("assistant.documentAnswers")}
             </p>
           </div>
         </div>
@@ -409,10 +411,11 @@ function EmptyState({
 }: {
   onSuggestion: (question: string) => void;
 }) {
+  const { t } = useLanguage();
   const suggestions = [
-    "What is the main purpose of this document?",
-    "Summarize the key findings.",
-    "What are the most important conclusions?",
+    t("assistant.mainPurpose"),
+    t("assistant.keyFindings"),
+    t("assistant.conclusions"),
   ];
 
   return (
@@ -422,12 +425,11 @@ function EmptyState({
       </div>
 
       <h2 className="text-center text-2xl font-semibold tracking-tight">
-        Ask your document anything
+        {t("assistant.emptyTitle")}
       </h2>
 
       <p className="mt-2 max-w-md text-center text-sm leading-6 text-muted-foreground">
-        KagojMind searches your document and uses the relevant sections to
-        generate an answer with sources.
+        {t("assistant.emptyDescription")}
       </p>
 
       <div className="mt-8 grid w-full max-w-2xl gap-2 sm:grid-cols-3">
@@ -457,6 +459,7 @@ function MessageBubble({
   onCopy: (message: Message) => void;
   copied: boolean;
 }) {
+  const { t } = useLanguage();
   const isUser = message.role === "user";
 
   return (
@@ -489,12 +492,12 @@ function MessageBubble({
               {copied ? (
                 <>
                   <Check className="mr-1.5 size-3.5" />
-                  Copied
+                  {t("common.copied")}
                 </>
               ) : (
                 <>
                   <Clipboard className="mr-1.5 size-3.5" />
-                  Copy
+                  {t("common.copy")}
                 </>
               )}
             </Button>
@@ -516,9 +519,10 @@ function MessageBubble({
 }
 
 function SourceList({ sources }: { sources: Source[] }) {
+  const { t } = useLanguage();
   return (
     <div className="mt-3">
-      <p className="mb-2 text-xs font-medium text-muted-foreground">Sources</p>
+      <p className="mb-2 text-xs font-medium text-muted-foreground">{t("assistant.sources")}</p>
 
       <div className="flex flex-wrap gap-2">
         {sources.map((source, index) => (

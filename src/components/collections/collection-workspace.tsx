@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/language-provider";
+
 import Link from "next/link";
 import { useState } from "react";
 import { FileText, Folder, Loader2, Plus, Trash2 } from "lucide-react";
@@ -53,6 +55,7 @@ export function CollectionWorkspace({
   collection,
   initialDocuments,
 }: CollectionWorkspaceProps) {
+  const { t } = useLanguage();
   const [documents, setDocuments] = useState<Document[]>(initialDocuments);
 
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -220,7 +223,7 @@ export function CollectionWorkspace({
           }}
         >
           <Plus className="size-4" />
-          Add Documents
+          {t("collections.addDocuments")}
         </Button>
       </div>
 
@@ -241,10 +244,10 @@ export function CollectionWorkspace({
               <FileText className="size-6 text-muted-foreground" />
             </div>
 
-            <h2 className="mt-5 font-semibold">This collection is empty</h2>
+            <h2 className="mt-5 font-semibold">{t("collections.emptyCollection")}</h2>
 
             <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-              Add documents to start building this knowledge space.
+              {t("collections.createDescription")}
             </p>
 
             <Button
@@ -254,7 +257,7 @@ export function CollectionWorkspace({
               }}
             >
               <Plus className="size-4" />
-              Add Documents
+              {t("collections.addDocuments")}
             </Button>
           </div>
         </Card>
@@ -277,10 +280,10 @@ export function CollectionWorkspace({
       <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>Add documents</DialogTitle>
+            <DialogTitle>{t("collections.addDocuments")}</DialogTitle>
 
             <DialogDescription>
-              Choose ready documents to add to this collection.
+              {t("collections.chooseReady")}
             </DialogDescription>
           </DialogHeader>
 
@@ -294,12 +297,11 @@ export function CollectionWorkspace({
                 <FileText className="mx-auto size-6 text-muted-foreground" />
 
                 <p className="mt-3 text-sm font-medium">
-                  No documents available
+                  {t("collections.noDocuments")}
                 </p>
 
                 <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                  Upload and process a document first, or all your ready
-                  documents may already be in this collection.
+                  {t("collections.uploadProcessFirst")}
                 </p>
               </div>
             ) : (
@@ -340,7 +342,7 @@ export function CollectionWorkspace({
                       ) : (
                         <Plus className="size-4" />
                       )}
-                      Add
+                      {t("collections.add")}
                     </Button>
                   </div>
                 ))}
@@ -355,7 +357,7 @@ export function CollectionWorkspace({
                 setIsAddOpen(false);
               }}
             >
-              Done
+              {t("collections.done")}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -1,3 +1,5 @@
+import { TranslatedText } from "@/components/i18n/translated-text";
+import type { TranslationKey } from "@/lib/i18n/translations";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import {
@@ -46,23 +48,26 @@ function getFileType(file: RecentDocument) {
   return "Document";
 }
 
-function getStatus(status: string) {
+function getStatus(status: string): { label: string; translationKey?: TranslationKey; variant: "secondary" | "outline" | "destructive" } {
   switch (status.toLowerCase()) {
     case "ready":
       return {
         label: "Ready",
+        translationKey: "documents.ready",
         variant: "secondary" as const,
       };
 
     case "processing":
       return {
         label: "Processing",
+        translationKey: "documents.processing",
         variant: "outline" as const,
       };
 
     case "failed":
       return {
         label: "Failed",
+        translationKey: "documents.failed",
         variant: "destructive" as const,
       };
 
@@ -99,14 +104,14 @@ export async function RecentDocuments() {
     return (
       <Card className="shadow-none">
         <div className="p-6">
-          <h2 className="font-semibold">Recent documents</h2>
+          <h2 className="font-semibold"><TranslatedText k="dashboard.recentDocuments" /></h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            We couldn&apos;t load your documents. Please try again.
+            <TranslatedText k="dashboard.loadDocumentsError" />
           </p>
           <Button asChild variant="outline" className="mt-4">
             <Link href="/documents">
               <RefreshCw className="mr-2 size-4" />
-              Open documents
+              <TranslatedText k="dashboard.openDocuments" />
             </Link>
           </Button>
         </div>
@@ -120,15 +125,15 @@ export async function RecentDocuments() {
     <Card className="shadow-none">
       <div className="flex items-center justify-between gap-3 border-b p-5">
         <div>
-          <h2 className="font-semibold">Recent documents</h2>
+          <h2 className="font-semibold"><TranslatedText k="dashboard.recentDocuments" /></h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Your five most recently added documents.
+            <TranslatedText k="dashboard.recentDescription" />
           </p>
         </div>
 
         <Button variant="ghost" size="sm" asChild>
           <Link href="/documents">
-            View all
+            <TranslatedText k="dashboard.viewAll" />
             <ArrowRight className="ml-2 size-4" />
           </Link>
         </Button>
@@ -140,15 +145,14 @@ export async function RecentDocuments() {
             <FolderOpen className="size-6 text-muted-foreground" />
           </div>
 
-          <h3 className="font-medium">No documents yet</h3>
+          <h3 className="font-medium"><TranslatedText k="dashboard.noDocuments" /></h3>
 
           <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-            Upload your first PDF or DOCX document to start building your
-            knowledge workspace.
+            <TranslatedText k="dashboard.noDocumentsDescription" />
           </p>
 
           <Button asChild className="mt-5">
-            <Link href="/documents">Upload your first document</Link>
+            <Link href="/documents"><TranslatedText k="dashboard.uploadFirst" /></Link>
           </Button>
         </div>
       ) : (
@@ -188,7 +192,7 @@ export async function RecentDocuments() {
                 </div>
 
                 <Badge variant={status.variant} className="shrink-0">
-                  {status.label}
+                  {status.translationKey ? <TranslatedText k={status.translationKey} /> : status.label}
                 </Badge>
               </Link>
             );

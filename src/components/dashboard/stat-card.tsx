@@ -1,32 +1,49 @@
-import { LucideIcon } from "lucide-react";
+"use client";
 
+import { FileText, FileCheck2, MessageSquare } from "lucide-react";
+
+import { useLanguage } from "@/components/i18n/language-provider";
+import type { TranslationKey } from "@/lib/i18n/translations";
 import { Card, CardContent } from "@/components/ui/card";
 
+type StatIcon = "documents" | "indexed" | "queries";
+
 type StatCardProps = {
-  title: string;
+  titleKey: TranslationKey;
   value: string;
-  description: string;
-  icon: LucideIcon;
+  descriptionKey: TranslationKey;
+  icon: StatIcon;
+};
+
+const icons = {
+  documents: FileText,
+  indexed: FileCheck2,
+  queries: MessageSquare,
 };
 
 export function StatCard({
-  title,
+  titleKey,
   value,
-  description,
-  icon: Icon,
+  descriptionKey,
+  icon,
 }: StatCardProps) {
+  const { t } = useLanguage();
+  const Icon = icons[icon];
+
   return (
     <Card className="shadow-none">
       <CardContent className="p-5">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-sm text-muted-foreground">{title}</p>
+            <p className="text-sm text-muted-foreground">{t(titleKey)}</p>
 
             <p className="mt-2 text-2xl font-semibold tracking-tight">
               {value}
             </p>
 
-            <p className="mt-1 text-xs text-muted-foreground">{description}</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {t(descriptionKey)}
+            </p>
           </div>
 
           <div className="flex size-9 items-center justify-center rounded-lg bg-muted">

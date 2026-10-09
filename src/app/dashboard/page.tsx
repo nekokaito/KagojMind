@@ -1,6 +1,5 @@
+import { TranslatedText } from "@/components/i18n/translated-text";
 import { redirect } from "next/navigation";
-import { FileCheck2, FileText, MessageSquare } from "lucide-react";
-
 import { createClient } from "@/lib/supabase/server";
 import { DocumentUpload } from "@/components/documents/document-upload";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
@@ -67,16 +66,15 @@ export default async function DashboardPage() {
             <section className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">
-                  Your workspace
+                  <TranslatedText k="dashboard.workspace" />
                 </p>
 
                 <h1 className="mt-1 text-2xl font-semibold tracking-tight md:text-3xl">
-                  Turn documents into knowledge.
+                  <TranslatedText k="dashboard.heroTitle" />
                 </h1>
 
                 <p className="mt-2 max-w-2xl text-sm text-muted-foreground md:text-base">
-                  Upload your documents, search your knowledge, and ask AI
-                  questions about your files.
+                  <TranslatedText k="dashboard.heroDescription" />
                 </p>
               </div>
 
@@ -88,36 +86,36 @@ export default async function DashboardPage() {
               aria-label="Workspace statistics"
             >
               <StatCard
-                title="Documents"
+                titleKey="dashboard.totalDocuments"
                 value={documentsCount === null ? "—" : String(documentsCount)}
-                description={
+                descriptionKey={
                   documentsResult.error
-                    ? "Unable to load document count"
-                    : "Total uploaded documents"
+                    ? "dashboard.loadCountError"
+                    : "dashboard.totalUploaded"
                 }
-                icon={FileText}
+                icon="documents"
               />
 
               <StatCard
-                title="Indexed"
+                titleKey="dashboard.indexed"
                 value={indexedCount === null ? "—" : String(indexedCount)}
-                description={
+                descriptionKey={
                   indexedResult.error
-                    ? "Unable to load indexed count"
-                    : "Ready for AI search"
+                    ? "dashboard.loadCountError"
+                    : "dashboard.readyForSearch"
                 }
-                icon={FileCheck2}
+                icon="indexed"
               />
 
               <StatCard
-                title="AI queries"
+                titleKey="dashboard.aiQueries"
                 value={queriesCount === null ? "—" : String(queriesCount)}
-                description={
+                descriptionKey={
                   queriesResult.error
-                    ? "Unable to load query count"
-                    : "Questions asked"
+                    ? "dashboard.loadCountError"
+                    : "dashboard.questionsAsked"
                 }
-                icon={MessageSquare}
+                icon="queries"
               />
             </section>
 

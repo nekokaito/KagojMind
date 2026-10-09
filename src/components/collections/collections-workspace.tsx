@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/language-provider";
+
 import Link from "next/link";
 import { useState } from "react";
 import {
@@ -46,6 +48,7 @@ type CollectionsWorkspaceProps = {
 export function CollectionsWorkspace({
   initialCollections,
 }: CollectionsWorkspaceProps) {
+  const { t } = useLanguage();
   const [collections, setCollections] =
     useState<Collection[]>(initialCollections);
 
@@ -99,7 +102,7 @@ export function CollectionsWorkspace({
 
   async function renameCollection(collection: Collection) {
     const name = window
-      .prompt("Enter a new collection name:", collection.name)
+      .prompt(t("collections.renamePrompt"), collection.name)
       ?.trim();
 
     if (!name || name === collection.name) {
@@ -183,12 +186,12 @@ export function CollectionsWorkspace({
             </div>
 
             <h1 className="text-2xl font-semibold tracking-tight">
-              Collections
+              {t("collections.title")}
             </h1>
           </div>
 
           <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
-            Organize your documents into focused knowledge spaces.
+            {t("collections.pageDescription")}
           </p>
         </div>
 
@@ -196,16 +199,16 @@ export function CollectionsWorkspace({
           <DialogTrigger asChild>
             <Button>
               <Plus className="size-4" />
-              New Collection
+              {t("collections.new")}
             </Button>
           </DialogTrigger>
 
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
-              <DialogTitle>Create collection</DialogTitle>
+              <DialogTitle>{t("collections.createTitle")}</DialogTitle>
 
               <DialogDescription>
-                Create a space to organize related documents.
+                {t("collections.createDescription")}
               </DialogDescription>
             </DialogHeader>
 
@@ -213,7 +216,7 @@ export function CollectionsWorkspace({
               <Input
                 value={newName}
                 onChange={(event) => setNewName(event.target.value)}
-                placeholder="e.g. University Research"
+                placeholder={t("collections.exampleName")}
                 maxLength={100}
                 autoFocus
                 onKeyDown={(event) => {
@@ -230,7 +233,7 @@ export function CollectionsWorkspace({
                 onClick={() => setIsCreateOpen(false)}
                 disabled={isCreating}
               >
-                Cancel
+                {t("collections.cancel")}
               </Button>
 
               <Button
@@ -238,7 +241,7 @@ export function CollectionsWorkspace({
                 disabled={isCreating || !newName.trim()}
               >
                 {isCreating && <Loader2 className="size-4 animate-spin" />}
-                Create Collection
+                {t("collections.createCollection")}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -280,6 +283,8 @@ function CollectionCard({
   onRename: () => void;
   onDelete: () => void;
 }) {
+  const { t } = useLanguage();
+
   return (
     <Card className="group overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-md">
       <div className="p-5">
@@ -297,7 +302,7 @@ function CollectionCard({
 
               <p className="mt-1 text-xs text-muted-foreground">
                 {collection.documentCount}{" "}
-                {collection.documentCount === 1 ? "document" : "documents"}
+                {collection.documentCount === 1 ? t("collections.document") : t("collections.documents")}
               </p>
             </div>
           </Link>
@@ -317,14 +322,14 @@ function CollectionCard({
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={onRename}>
                 <Pencil className="size-4" />
-                Rename
+                {t("collections.rename")}
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />
 
               <DropdownMenuItem variant="destructive" onClick={onDelete}>
                 <Trash2 className="size-4" />
-                Delete
+                {t("collections.delete")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -334,7 +339,7 @@ function CollectionCard({
           href={`/collections/${collection.id}`}
           className="mt-5 flex items-center justify-between border-t pt-4 text-xs font-medium text-muted-foreground transition-colors group-hover:text-foreground"
         >
-          Open collection
+          {t("collections.open")}
           <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
         </Link>
       </div>
@@ -343,6 +348,8 @@ function CollectionCard({
 }
 
 function EmptyCollections({ onCreate }: { onCreate: () => void }) {
+  const { t } = useLanguage();
+
   return (
     <Card className="mt-8">
       <div className="flex min-h-80 flex-col items-center justify-center p-8 text-center">
@@ -350,16 +357,15 @@ function EmptyCollections({ onCreate }: { onCreate: () => void }) {
           <Folder className="size-6 text-primary" />
         </div>
 
-        <h2 className="mt-5 text-lg font-semibold">No collections yet</h2>
+        <h2 className="mt-5 text-lg font-semibold">{t("collections.noCollections")}</h2>
 
         <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-          Collections help you group related documents together so your
-          knowledge base stays organized.
+          {t("collections.emptyDescription")}
         </p>
 
         <Button className="mt-6" onClick={onCreate}>
           <Plus className="size-4" />
-          Create your first collection
+          {t("collections.create")}
         </Button>
       </div>
     </Card>

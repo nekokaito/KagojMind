@@ -1,3 +1,4 @@
+import { TranslatedText } from "@/components/i18n/translated-text";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
@@ -37,10 +38,10 @@ export default async function DocumentsPage() {
       <main className="space-y-8 p-6">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight">Documents</h1>
+            <h1 className="text-2xl font-semibold tracking-tight"><TranslatedText k="documents.title" /></h1>
 
             <p className="mt-1 text-sm text-muted-foreground">
-              Manage your documents and build your knowledge base.
+              <TranslatedText k="documents.manageDescription" />
             </p>
           </div>
 

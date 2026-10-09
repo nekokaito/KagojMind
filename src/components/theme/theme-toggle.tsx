@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/language-provider";
+
 import { useSyncExternalStore } from "react";
 import { Monitor, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -13,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export function ThemeToggle() {
+  const { t } = useLanguage();
   const { setTheme } = useTheme();
   const mounted = useSyncExternalStore(
     () => () => {},
@@ -25,7 +28,7 @@ export function ThemeToggle() {
       <Button
         variant="ghost"
         size="icon"
-        aria-label="Choose appearance"
+        aria-label={t("theme.chooseAppearance")}
         disabled
       >
         <Sun className="size-4" />
@@ -36,7 +39,7 @@ export function ThemeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label="Choose appearance">
+        <Button variant="ghost" size="icon" aria-label={t("theme.chooseAppearance")}>
           <Sun className="size-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute size-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
         </Button>
@@ -45,17 +48,17 @@ export function ThemeToggle() {
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
           <Sun className="mr-2 size-4" />
-          Light
+          {t("settings.light")}
         </DropdownMenuItem>
 
         <DropdownMenuItem onClick={() => setTheme("dark")}>
           <Moon className="mr-2 size-4" />
-          Dark
+          {t("settings.dark")}
         </DropdownMenuItem>
 
         <DropdownMenuItem onClick={() => setTheme("system")}>
           <Monitor className="mr-2 size-4" />
-          System
+          {t("settings.system")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
