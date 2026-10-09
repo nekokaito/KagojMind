@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Bot,
+  ChevronsUpDown,
   FileText,
   Folder,
   LayoutDashboard,
@@ -12,10 +13,11 @@ import {
   Search,
   Settings,
   Sparkles,
-  ChevronsUpDown,
 } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/client";
+import { useLanguage } from "@/components/i18n/language-provider";
+import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 
 import {
   Sidebar,
@@ -47,40 +49,78 @@ type UserProfile = {
   avatarUrl: string | null;
 };
 
-const mainNavigation = [
-  { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { title: "Documents", href: "/documents", icon: FileText },
-  { title: "AI Assistant", href: "/assistant", icon: Bot },
-  { title: "Search", href: "/search", icon: Search },
-  { title: "Collections", href: "/collections", icon: Folder },
-];
-
 export function AppSidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const { t } = useLanguage();
 
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loggingOut, setLoggingOut] = useState(false);
+
+  const mainNavigation = [
+    {
+      title: t("nav.dashboard"),
+      href: "/dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      title: t("nav.documents"),
+      href: "/documents",
+      icon: FileText,
+    },
+    {
+      title: t("nav.assistant"),
+      href: "/assistant",
+      icon: Bot,
+    },
+    {
+      title: t("nav.search"),
+      href: "/search",
+      icon: Search,
+    },
+    {
+      title: t("nav.collections"),
+      href: "/collections",
+      icon: Folder,
+    },
+  ];
 
   useEffect(() => {
     const supabase = createClient();
     let mounted = true;
 
-    async function loadProfile() {
-      const { data, error } = await supabase.auth.getUser();
-
-      if (!mounted || error || !data.user) return;
-
-      const user = data.user;
+    function updateProfile(user: {
+      email?: string;
+      user_metadata?: Record<string, unknown>;
+    }) {
       const metadata = user.user_metadata ?? {};
       const email = user.email ?? "";
 
+      const fullName = metadata.full_name || metadata.name;
+
+      const avatar = metadata.avatar_url || metadata.picture;
+
       setProfile({
         name:
-          metadata.full_name || metadata.name || email.split("@")[0] || "User",
+          (typeof fullName === "string" && fullName.trim()) ||
+          email.split("@")[0] ||
+          "User",
         email,
-        avatarUrl: metadata.avatar_url || metadata.picture || null,
+        avatarUrl: typeof avatar === "string" ? avatar : null,
       });
+    }
+
+    async function loadProfile() {
+      const { data, error } = await supabase.auth.getUser();
+
+      if (!mounted) return;
+
+      if (error || !data.user) {
+        setProfile(null);
+        return;
+      }
+
+      updateProfile(data.user);
     }
 
     void loadProfile();
@@ -95,16 +135,7 @@ export function AppSidebar() {
         return;
       }
 
-      const user = session.user;
-      const metadata = user.user_metadata ?? {};
-      const email = user.email ?? "";
-
-      setProfile({
-        name:
-          metadata.full_name || metadata.name || email.split("@")[0] || "User",
-        email,
-        avatarUrl: metadata.avatar_url || metadata.picture || null,
-      });
+      updateProfile(session.user);
     });
 
     return () => {
@@ -122,7 +153,9 @@ export function AppSidebar() {
       const supabase = createClient();
       const { error } = await supabase.auth.signOut();
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
       router.replace("/login");
       router.refresh();
@@ -143,6 +176,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar>
+      {/* Brand */}
       <SidebarHeader className="border-b">
         <Link href="/dashboard" className="flex items-center gap-2 px-2 py-3">
           <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
@@ -151,21 +185,24 @@ export function AppSidebar() {
 
           <div className="flex flex-col">
             <span className="font-semibold tracking-tight">KagojMind</span>
+
             <span className="text-[11px] text-muted-foreground">
-              Document intelligence
+              {t("brand.tagline")}
             </span>
           </div>
         </Link>
       </SidebarHeader>
 
+      {/* Navigation */}
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+          <SidebarGroupLabel>{t("nav.workspace")}</SidebarGroupLabel>
 
           <SidebarGroupContent>
             <SidebarMenu>
               {mainNavigation.map((item) => {
                 const Icon = item.icon;
+
                 const active =
                   pathname === item.href ||
                   pathname.startsWith(`${item.href}/`);
@@ -189,8 +226,9 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
+        {/* Account navigation */}
         <SidebarGroup>
-          <SidebarGroupLabel>Account</SidebarGroupLabel>
+          <SidebarGroupLabel>{t("nav.account")}</SidebarGroupLabel>
 
           <SidebarGroupContent>
             <SidebarMenu>
@@ -201,11 +239,11 @@ export function AppSidebar() {
                     pathname === "/settings" ||
                     pathname.startsWith("/settings/")
                   }
-                  tooltip="Settings"
+                  tooltip={t("nav.settings")}
                 >
                   <Link href="/settings">
                     <Settings />
-                    <span>Settings</span>
+                    <span>{t("nav.settings")}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -214,6 +252,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
+      {/* Profile and preferences */}
       <SidebarFooter className="border-t p-2">
         <SidebarMenu>
           <SidebarMenuItem>
@@ -222,22 +261,24 @@ export function AppSidebar() {
                 <SidebarMenuButton
                   size="lg"
                   className="h-auto min-h-12"
-                  tooltip={profile?.name || "Account"}
+                  tooltip={profile?.name || t("account.profile")}
                 >
                   <Avatar className="size-8 shrink-0">
                     <AvatarImage
                       src={profile?.avatarUrl ?? undefined}
                       alt={profile?.name ?? "User"}
                     />
+
                     <AvatarFallback>{initials}</AvatarFallback>
                   </Avatar>
 
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">
-                      {profile?.name || "Loading account..."}
+                      {profile?.name || t("common.loading")}
                     </span>
+
                     <span className="truncate text-xs text-muted-foreground">
-                      {profile?.email || " "}
+                      {profile?.email || ""}
                     </span>
                   </div>
 
@@ -245,34 +286,44 @@ export function AppSidebar() {
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
 
-              <DropdownMenuContent side="top" align="start" className="w-60">
+              <DropdownMenuContent side="top" align="start" className="w-64">
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col gap-1">
                     <span className="text-sm font-medium">
-                      {profile?.name || "Account"}
+                      {profile?.name || t("account.profile")}
                     </span>
+
                     <span className="text-xs text-muted-foreground">
-                      {profile?.email}
+                      {profile?.email || ""}
                     </span>
                   </div>
                 </DropdownMenuLabel>
 
                 <DropdownMenuSeparator />
 
+                {/* Language preference */}
+                <div className="px-2 py-2">
+                  <LanguageSwitcher />
+                </div>
+
+                <DropdownMenuSeparator />
+
+                {/* Settings */}
                 <DropdownMenuItem onSelect={() => router.push("/settings")}>
                   <Settings className="mr-2 size-4" />
-                  Settings
+                  {t("nav.settings")}
                 </DropdownMenuItem>
 
                 <DropdownMenuSeparator />
 
+                {/* Sign out */}
                 <DropdownMenuItem
                   disabled={loggingOut}
                   onSelect={() => void handleLogout()}
                   className="text-destructive focus:text-destructive"
                 >
                   <LogOut className="mr-2 size-4" />
-                  {loggingOut ? "Signing out..." : "Sign out"}
+                  {loggingOut ? t("account.signingOut") : t("account.signOut")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

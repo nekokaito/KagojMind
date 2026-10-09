@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 import "./globals.css";
+import { LanguageProvider } from "@/components/i18n/language-provider";
 
 const notoSans = Noto_Sans({
   variable: "--font-noto-sans",
@@ -29,8 +30,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           disableTransitionOnChange
         >
           <TooltipProvider>
-            {children}
-            <Toaster position="bottom-right" richColors closeButton />
+            <LanguageProvider>
+              {children}
+              <Toaster position="bottom-right" richColors closeButton />
+            </LanguageProvider>
           </TooltipProvider>
         </ThemeProvider>
       </body>
