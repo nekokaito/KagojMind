@@ -1,10 +1,10 @@
 "use client";
 
-import { ChangeEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import type { ChangeEvent } from "react";
 import { FileText, Upload, X } from "lucide-react";
 import { useRouter } from "next/navigation";
-
-import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +15,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { createClient } from "@/lib/supabase/client";
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024;
 
@@ -27,6 +28,12 @@ function getFileExtension(fileName: string) {
   return fileName.split(".").pop()?.toUpperCase() ?? "";
 }
 
+function getErrorMessage(error: unknown) {
+  return error instanceof Error
+    ? error.message
+    : "Something went wrong. Please try again.";
+}
+
 export function DocumentUpload() {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -34,7 +41,6 @@ export function DocumentUpload() {
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
-
   const [dragging, setDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
@@ -53,12 +59,32 @@ export function DocumentUpload() {
     setError("");
 
     if (!ALLOWED_TYPES.includes(selectedFile.type)) {
-      setError("Only PDF and DOCX files are supported.");
+      const message = "Only PDF and DOCX files are supported.";
+
+      setError(message);
+      toast.error("Unsupported file type", {
+        description: message,
+      });
       return;
     }
 
     if (selectedFile.size > MAX_FILE_SIZE) {
-      setError("File size must be 20 MB or smaller.");
+      const message = "File size must be 20 MB or smaller.";
+
+      setError(message);
+      toast.error("File is too large", {
+        description: message,
+      });
+      return;
+    }
+
+    if (selectedFile.size === 0) {
+      const message = "The selected file is empty.";
+
+      setError(message);
+      toast.error("Empty document", {
+        description: message,
+      });
       return;
     }
 
@@ -82,13 +108,37 @@ export function DocumentUpload() {
   }
 
   async function handleUpload() {
+    if (uploading) return;
+
     if (!file) {
-      setError("Please select a document.");
+      const message = "Please select a document.";
+
+      setError(message);
+      toast.error("No document selected", {
+        description: message,
+      });
       return;
     }
 
-    if (!title.trim()) {
-      setError("Please enter a document title.");
+    const documentTitle = title.trim();
+
+    if (!documentTitle) {
+      const message = "Please enter a document title.";
+
+      setError(message);
+      toast.error("Document title required", {
+        description: message,
+      });
+      return;
+    }
+
+    if (documentTitle.length > 200) {
+      const message = "Document title must be 200 characters or less.";
+
+      setError(message);
+      toast.error("Document title is too long", {
+        description: message,
+      });
       return;
     }
 
@@ -97,79 +147,135 @@ export function DocumentUpload() {
 
     const supabase = createClient();
 
-    const {
-      data: { user },
-      error: userError,
-    } = await supabase.auth.getUser();
+    let storagePath: string | null = null;
+    let uploaded = false;
 
-    if (userError || !user) {
-      setError("Your session has expired. Please sign in again.");
-      setUploading(false);
-      return;
-    }
+    try {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
 
-    const documentId = crypto.randomUUID();
+      if (userError || !user) {
+        throw new Error("Your session has expired. Please sign in again.");
+      }
 
-    const storagePath = `${user.id}/${documentId}/${file.name}`;
+      const documentId = crypto.randomUUID();
 
-    const { error: uploadError } = await supabase.storage
-      .from("documents")
-      .upload(storagePath, file, {
-        cacheControl: "3600",
-        upsert: false,
-        contentType: file.type,
+      storagePath = `${user.id}/${documentId}/${file.name}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("documents")
+        .upload(storagePath, file, {
+          cacheControl: "3600",
+          upsert: false,
+          contentType: file.type,
+        });
+
+      if (uploadError) {
+        throw new Error(uploadError.message);
+      }
+
+      uploaded = true;
+
+      const { error: documentError } = await supabase.from("documents").insert({
+        id: documentId,
+        user_id: user.id,
+        title: documentTitle,
+        file_name: file.name,
+        file_type: file.type,
+        file_url: storagePath,
+        file_size: file.size,
+        status: "processing",
+        processing_started_at: null,
       });
 
-    if (uploadError) {
-      setError(uploadError.message);
+      if (documentError) {
+        const { error: cleanupError } = await supabase.storage
+          .from("documents")
+          .remove([storagePath]);
+
+        if (cleanupError) {
+          console.error("Failed to clean up uploaded file:", cleanupError);
+        } else {
+          uploaded = false;
+        }
+
+        throw new Error(documentError.message);
+      }
+
+      toast.success("Document uploaded", {
+        description: `"${documentTitle}" is being processed.`,
+      });
+
+      setOpen(false);
+      reset();
+      router.refresh();
+
+      void fetch(`/api/documents/${documentId}/process`, {
+        method: "POST",
+      })
+        .then(async (response) => {
+          if (!response.ok) {
+            const data = await response.json().catch(() => null);
+
+            throw new Error(
+              data?.error ?? "Could not start document processing.",
+            );
+          }
+
+          router.refresh();
+        })
+        .catch((processingError: unknown) => {
+          console.error(
+            "Failed to start document processing:",
+            processingError,
+          );
+
+          toast.error("Processing could not start", {
+            description:
+              "Your document was uploaded, but processing could not be started. Check its status and try again.",
+            duration: 6000,
+          });
+
+          router.refresh();
+        });
+    } catch (uploadError) {
+      const message = getErrorMessage(uploadError);
+
+      console.error("Document upload failed:", uploadError);
+
+      setError(message);
+
+      toast.error("Document upload failed", {
+        description: message,
+        duration: 6000,
+      });
+
+      if (uploaded) {
+        console.error(
+          "An uploaded storage object may need cleanup:",
+          storagePath,
+        );
+      }
+    } finally {
       setUploading(false);
-      return;
     }
-
-    const { error: documentError } = await supabase.from("documents").insert({
-      id: documentId,
-      user_id: user.id,
-      title: title.trim(),
-      file_name: file.name,
-      file_type: file.type,
-      file_url: storagePath,
-      file_size: file.size,
-      status: "processing",
-      processing_started_at: null,
-    });
-
-    if (documentError) {
-      await supabase.storage.from("documents").remove([storagePath]);
-
-      setError(documentError.message);
-      setUploading(false);
-      return;
-    }
-
-    void fetch(`/api/documents/${documentId}/process`, {
-      method: "POST",
-    }).catch((error) => {
-      console.error("Failed to start document processing:", error);
-    });
-
-    setUploading(false);
-    setOpen(false);
-    reset();
-
-    router.refresh();
   }
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>
-        <Upload />
+      <Button onClick={() => setOpen(true)} disabled={uploading}>
+        <Upload className="size-4" />
         Upload document
       </Button>
 
       <Dialog
         open={open}
         onOpenChange={(value) => {
-          if (!value && !uploading) {
+          if (!value && uploading) return;
+
+          if (!value) {
             reset();
           }
 
@@ -250,8 +356,14 @@ export function DocumentUpload() {
                 </div>
 
                 {!uploading && (
-                  <Button variant="ghost" size="icon" onClick={reset}>
-                    <X />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Remove selected document"
+                    onClick={reset}
+                  >
+                    <X className="size-4" />
                   </Button>
                 )}
               </div>
@@ -266,28 +378,36 @@ export function DocumentUpload() {
                   value={title}
                   onChange={(event) => setTitle(event.target.value)}
                   placeholder="Employment Contract"
+                  maxLength={200}
                   disabled={uploading}
                 />
               </div>
 
               {error && (
-                <div className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+                <div
+                  role="alert"
+                  className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+                >
                   {error}
                 </div>
               )}
 
               <Button
+                type="button"
                 className="w-full"
-                onClick={handleUpload}
+                onClick={() => void handleUpload()}
                 disabled={uploading}
               >
-                {uploading ? "Uploading & processing..." : "Upload document"}
+                {uploading ? "Uploading..." : "Upload document"}
               </Button>
             </div>
           )}
 
           {error && !file && (
-            <div className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+            <div
+              role="alert"
+              className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+            >
               {error}
             </div>
           )}
