@@ -28,6 +28,7 @@ import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { LanguageToggle } from "@/components/i18n/language-toggle";
 import { KagojMindLogo } from "@/components/brand/kagojmind-logo";
+import Image from "next/image";
 
 const features = [
   {
@@ -709,9 +710,7 @@ export default function HomePage() {
           {/* Brand */}
           <div className="space-y-3">
             <Link href="/" className="inline-flex items-center gap-2.5">
-              <div className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-                <BrainCircuit className="size-4.5" />
-              </div>
+              <KagojMindLogo />
               <span className="text-lg font-bold tracking-tight">
                 কাগজ Mind
               </span>
@@ -724,8 +723,14 @@ export default function HomePage() {
 
           {/* Creator card */}
           <div className="flex items-center gap-4 rounded-2xl border border-border/70 bg-background px-4 py-3 shadow-sm">
-            <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-              SS
+            <div className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary/10">
+              <Image
+                src="/author/author.jpg"
+                alt="Siddiq Sazzad"
+                width={40}
+                height={40}
+                className="size-full rounded-full object-cover"
+              />
             </div>
 
             <div className="min-w-0 flex-1">

@@ -1,17 +1,16 @@
 "use client";
 
-import { useLanguage } from "@/components/i18n/language-provider";
-
-import { FormEvent, useState } from "react";
+import { Suspense, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { useLanguage } from "@/components/i18n/language-provider";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 
-export default function LoginPage() {
+function LoginForm() {
   const { t } = useLanguage();
   const router = useRouter();
   const supabase = createClient();
@@ -138,5 +137,19 @@ export default function LoginPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="flex min-h-screen items-center justify-center bg-background px-6">
+          <div className="h-72 w-full max-w-md animate-pulse rounded-2xl bg-muted" />
+        </main>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 }

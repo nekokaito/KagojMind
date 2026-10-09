@@ -1,17 +1,16 @@
 "use client";
 
-import { useLanguage } from "@/components/i18n/language-provider";
-
-import { FormEvent, useState } from "react";
+import { Suspense, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { useLanguage } from "@/components/i18n/language-provider";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 
-export default function RegisterPage() {
+function RegisterForm() {
   const { t } = useLanguage();
   const router = useRouter();
   const supabase = createClient();
@@ -53,9 +52,7 @@ export default function RegisterPage() {
         return;
       }
 
-      setSuccess(
-        t("auth.confirmEmail"),
-      );
+      setSuccess(t("auth.confirmEmail"));
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {
@@ -71,7 +68,9 @@ export default function RegisterPage() {
             KagojMind
           </Link>
 
-          <h1 className="mt-8 text-2xl font-semibold">{t("auth.registerTitle")}</h1>
+          <h1 className="mt-8 text-2xl font-semibold">
+            {t("auth.registerTitle")}
+          </h1>
 
           <p className="mt-2 text-sm text-muted-foreground">
             {t("auth.registerSubtitle")}
@@ -165,7 +164,9 @@ export default function RegisterPage() {
             )}
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? t("auth.creatingAccount") : t("auth.createAccountButton")}
+              {loading
+                ? t("auth.creatingAccount")
+                : t("auth.createAccountButton")}
             </Button>
           </form>
 
@@ -181,5 +182,25 @@ export default function RegisterPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+function RegisterLoading() {
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-background px-6 py-10">
+      <div
+        className="size-8 animate-spin rounded-full border-2 border-muted border-t-primary"
+        role="status"
+        aria-label="Loading"
+      />
+    </main>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<RegisterLoading />}>
+      <RegisterForm />
+    </Suspense>
   );
 }
