@@ -1,4 +1,3 @@
-::: {align="center"}
 # KagojMind
 
 ### Turn documents into knowledge.
@@ -294,8 +293,8 @@ this section before distributing or accepting reuse of the project.
 
 ------------------------------------------------------------------------
 
-::: {align="center"}
+
 **KagojMind --- Turn documents into knowledge.**
 
 Built as a full-stack AI document intelligence project.
-:::
+
