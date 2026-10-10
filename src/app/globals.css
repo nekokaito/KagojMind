@@ -157,3 +157,7 @@
     font-family: var(--font-noto-sans), sans-serif;
   }
 }
+
+html {
+  scroll-behavior: smooth;
+}
