@@ -411,6 +411,46 @@ export const translations = {
     "landing.footerTagline": "Turn documents into knowledge.",
     "landing.madeBy": "Built by",
     "landing.footerRights": "All rights reserved.",
+    "rag.eyebrow": "HOW RAG WORKS",
+    "rag.title": "From documents to answers",
+    "rag.description":
+      "See how KagojMind uses Retrieval-Augmented Generation (RAG) to find relevant information in your documents and generate grounded answers.",
+    "rag.stageUpload": "Upload",
+    "rag.stageChunk": "Chunk",
+    "rag.stageRetrieve": "Retrieve",
+    "rag.stageGenerate": "Generate",
+    "rag.uploadDescription": "Upload a PDF or DOCX document.",
+    "rag.chunkDescription": "Extract text and split it into smaller chunks.",
+    "rag.retrieveDescription":
+      "Find the most relevant chunks using semantic search.",
+    "rag.generateDescription":
+      "Generate an answer using the retrieved context.",
+    "rag.complete": "Complete",
+    "rag.processing": "Processing...",
+    "rag.waiting": "Waiting",
+    "rag.retrievedTitle": "Retrieved chunks",
+    "rag.retrievedSubtitle": "Relevant document passages",
+    "rag.searching": "Searching documents...",
+    "rag.chunkOneTitle": "Introduction",
+    "rag.chunkOneText":
+      "The document introduces the main topic and its objectives.",
+    "rag.chunkTwoTitle": "Key findings",
+    "rag.chunkTwoText":
+      "The report presents important findings and supporting evidence.",
+    "rag.chunkThreeTitle": "Conclusion",
+    "rag.chunkThreeText": "The final section summarizes the key takeaways.",
+    "rag.scoreNote": "Illustrative similarity scores",
+    "rag.answerTitle": "AI-generated answer",
+    "rag.answerSubtitle": "Grounded in retrieved context",
+    "rag.questionLabel": "YOUR QUESTION",
+    "rag.question": "What are the main findings of this document?",
+    "rag.answer":
+      "The main findings are identified by retrieving relevant passages from the document and using them as context to generate an answer.",
+    "rag.sourceOne": "Document.pdf · Page 2",
+    "rag.sourceTwo": "Document.pdf · Page 5",
+    "rag.waitingForAnswer": "Your answer will appear here.",
+    "rag.footerNote":
+      "Illustration only. Actual retrieved passages and answers depend on your uploaded documents and question.",
   },
 
   bn: {
@@ -826,6 +866,45 @@ export const translations = {
     "landing.footerTagline": "ডকুমেন্টকে জ্ঞানে রূপান্তর করুন।",
     "landing.madeBy": "নির্মাতা",
     "landing.footerRights": "সর্বস্বত্ব সংরক্ষিত।",
+    "rag.eyebrow": "RAG কীভাবে কাজ করে",
+    "rag.title": "ডকুমেন্ট থেকে উত্তর",
+    "rag.description":
+      "দেখুন কীভাবে KagojMind Retrieval-Augmented Generation (RAG) ব্যবহার করে ডকুমেন্ট থেকে প্রাসঙ্গিক তথ্য খুঁজে উত্তর তৈরি করে।",
+    "rag.stageUpload": "আপলোড",
+    "rag.stageChunk": "ভাগ করা",
+    "rag.stageRetrieve": "তথ্য খোঁজা",
+    "rag.stageGenerate": "উত্তর তৈরি",
+    "rag.uploadDescription": "PDF অথবা DOCX ডকুমেন্ট আপলোড করুন।",
+    "rag.chunkDescription": "টেক্সট বের করে ছোট ছোট অংশে ভাগ করা হয়।",
+    "rag.retrieveDescription":
+      "সেম্যান্টিক সার্চ ব্যবহার করে সবচেয়ে প্রাসঙ্গিক অংশগুলো খুঁজে বের করা হয়।",
+    "rag.generateDescription":
+      "খুঁজে পাওয়া তথ্য ব্যবহার করে উত্তর তৈরি করা হয়।",
+    "rag.complete": "সম্পন্ন",
+    "rag.processing": "প্রক্রিয়াকরণ চলছে...",
+    "rag.waiting": "অপেক্ষমাণ",
+    "rag.retrievedTitle": "খুঁজে পাওয়া অংশ",
+    "rag.retrievedSubtitle": "ডকুমেন্টের প্রাসঙ্গিক অংশগুলো",
+    "rag.searching": "ডকুমেন্ট খোঁজা হচ্ছে...",
+    "rag.chunkOneTitle": "ভূমিকা",
+    "rag.chunkOneText": "ডকুমেন্টে মূল বিষয় এবং এর উদ্দেশ্য তুলে ধরা হয়েছে।",
+    "rag.chunkTwoTitle": "মূল ফলাফল",
+    "rag.chunkTwoText":
+      "রিপোর্টে গুরুত্বপূর্ণ ফলাফল এবং তার সমর্থনে প্রমাণ উপস্থাপন করা হয়েছে।",
+    "rag.chunkThreeTitle": "উপসংহার",
+    "rag.chunkThreeText": "শেষ অংশে মূল বিষয়গুলো সংক্ষেপে তুলে ধরা হয়েছে।",
+    "rag.scoreNote": "উদাহরণস্বরূপ সাদৃশ্য স্কোর",
+    "rag.answerTitle": "AI-তৈরি উত্তর",
+    "rag.answerSubtitle": "খুঁজে পাওয়া তথ্যের ভিত্তিতে",
+    "rag.questionLabel": "আপনার প্রশ্ন",
+    "rag.question": "এই ডকুমেন্টের মূল ফলাফল কী?",
+    "rag.answer":
+      "ডকুমেন্টের প্রাসঙ্গিক অংশগুলো খুঁজে বের করে সেগুলোকে প্রেক্ষাপট হিসেবে ব্যবহার করে মূল ফলাফল সম্পর্কে উত্তর তৈরি করা হয়।",
+    "rag.sourceOne": "Document.pdf · পৃষ্ঠা ২",
+    "rag.sourceTwo": "Document.pdf · পৃষ্ঠা ৫",
+    "rag.waitingForAnswer": "আপনার উত্তর এখানে দেখা যাবে।",
+    "rag.footerNote":
+      "এটি শুধুমাত্র একটি উদাহরণ। প্রকৃত তথ্য ও উত্তর আপনার আপলোড করা ডকুমেন্ট এবং প্রশ্নের ওপর নির্ভর করবে।",
   },
 } as const;
 

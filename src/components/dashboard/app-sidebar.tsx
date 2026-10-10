@@ -42,6 +42,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { KagojMindLogo } from "../brand/kagojmind-logo";
 
 type UserProfile = {
   name: string;
@@ -178,10 +179,8 @@ export function AppSidebar() {
     <Sidebar>
       {/* Brand */}
       <SidebarHeader className="border-b">
-        <Link href="/dashboard" className="flex items-center gap-2 px-2 py-3">
-          <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Sparkles className="size-4" />
-          </div>
+        <Link href="/" className="flex items-center gap-2 px-2 py-3">
+          <KagojMindLogo className="size-6" />
 
           <div className="flex flex-col">
             <span className="font-semibold tracking-tight">কাগজ Mind</span>
