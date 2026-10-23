@@ -1,5 +1,7 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import { useLanguage } from "@/components/i18n/language-provider";
 
 import { useRef, useState } from "react";
@@ -270,7 +272,7 @@ export function DocumentUpload() {
     <>
       <Button onClick={() => setOpen(true)} disabled={uploading}>
         <Upload className="size-4" />
-        {t("upload.uploadButton")} 
+        <TranslatedText k="upload.uploadButton" />
       </Button>
 
       <Dialog
@@ -287,10 +289,10 @@ export function DocumentUpload() {
       >
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>{t("upload.dialogTitle")}</DialogTitle>
+            <DialogTitle><TranslatedText k="upload.dialogTitle" /></DialogTitle>
 
             <DialogDescription>
-              {t("upload.dialogDescription")}
+              <TranslatedText k="upload.dialogDescription" />
             </DialogDescription>
           </DialogHeader>
 
@@ -324,14 +326,14 @@ export function DocumentUpload() {
                 <Upload className="size-5" />
               </div>
 
-              <p className="font-medium">{t("upload.dropHere")}</p>
+              <p className="font-medium"><TranslatedText k="upload.dropHere" /></p>
 
               <p className="mt-1 text-sm text-muted-foreground">
-                {t("upload.orBrowse")}
+                <TranslatedText k="upload.orBrowse" />
               </p>
 
               <p className="mt-4 text-xs text-muted-foreground">
-                {t("upload.supportedFiles")}
+                <TranslatedText k="upload.supportedFiles" />
               </p>
 
               <Input

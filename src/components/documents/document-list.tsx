@@ -1,5 +1,7 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import { useLanguage } from "@/components/i18n/language-provider";
 
 import Link from "next/link";
@@ -45,21 +47,21 @@ function getFileType(fileType: string) {
   return "DOCX";
 }
 
-function StatusBadge({ status, t }: { status: Document["status"]; t: (key: import("@/lib/i18n/translations").TranslationKey) => string }) {
+function StatusBadge({ status }: { status: Document["status"] }) {
   switch (status) {
     case "processing":
       return (
         <Badge variant="secondary" className="gap-1.5">
           <Loader2 className="size-3 animate-spin" />
-          {t("documents.processing")}
+          <TranslatedText k="documents.processing" />
         </Badge>
       );
 
     case "ready":
-      return <Badge>{t("documents.ready")}</Badge>;
+      return <Badge><TranslatedText k="documents.ready" /></Badge>;
 
     case "error":
-      return <Badge variant="destructive">{t("documents.error")}</Badge>;
+      return <Badge variant="destructive"><TranslatedText k="documents.error" /></Badge>;
   }
 }
 
@@ -92,10 +94,10 @@ export function DocumentList({ documents }: DocumentListProps) {
           <FileText className="size-5" />
         </div>
 
-        <h3 className="font-medium">{t("documents.noDocumentsYet")}</h3>
+        <h3 className="font-medium"><TranslatedText k="documents.noDocumentsYet" /></h3>
 
         <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-          {t("documents.noDocumentsDescriptionLong")}
+          <TranslatedText k="documents.noDocumentsDescriptionLong" />
         </p>
       </Card>
     );
@@ -139,7 +141,7 @@ export function DocumentList({ documents }: DocumentListProps) {
               </div>
             </div>
 
-            <StatusBadge status={document.status} t={t} />
+            <StatusBadge status={document.status} />
           </div>
         );
 

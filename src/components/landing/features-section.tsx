@@ -1,5 +1,7 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import { motion } from "motion/react";
 import {
   FileText,
@@ -8,7 +10,6 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-import { useLanguage } from "@/components/i18n/language-provider";
 
 const features = [
   {
@@ -43,7 +44,6 @@ const fadeUp = {
 };
 
 export function FeaturesSection() {
-  const { t } = useLanguage();
 
   return (
     <section
@@ -61,19 +61,19 @@ export function FeaturesSection() {
         className="mx-auto mb-14 max-w-2xl text-center"
       >
         <motion.p variants={fadeUp} className="mb-3 text-sm font-semibold text-primary">
-          {t("landing.featuresEyebrow")}
+          <TranslatedText k="landing.featuresEyebrow" />
         </motion.p>
         <motion.h2
           variants={fadeUp}
           className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl"
         >
-          {t("landing.featuresTitle")}
+          <TranslatedText k="landing.featuresTitle" />
         </motion.h2>
         <motion.p
           variants={fadeUp}
           className="mt-4 text-base leading-7 text-muted-foreground sm:text-lg"
         >
-          {t("landing.featuresDescription")}
+          <TranslatedText k="landing.featuresDescription" />
         </motion.p>
       </motion.div>
 
@@ -96,9 +96,9 @@ export function FeaturesSection() {
                 {number}
               </span>
             </div>
-            <h3 className="text-base font-semibold">{t(title)}</h3>
+            <h3 className="text-base font-semibold"><TranslatedText k={title} /></h3>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              {t(description)}
+              <TranslatedText k={description} />
             </p>
           </motion.article>
         ))}

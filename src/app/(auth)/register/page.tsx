@@ -1,5 +1,7 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import { Suspense, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -69,11 +71,11 @@ function RegisterForm() {
           </Link>
 
           <h1 className="mt-8 text-2xl font-semibold">
-            {t("auth.registerTitle")}
+            <TranslatedText k="auth.registerTitle" />
           </h1>
 
           <p className="mt-2 text-sm text-muted-foreground">
-            {t("auth.registerSubtitle")}
+            <TranslatedText k="auth.registerSubtitle" />
           </p>
         </div>
 
@@ -87,7 +89,7 @@ function RegisterForm() {
 
             <div className="relative flex justify-center">
               <span className="bg-card px-3 text-xs text-muted-foreground">
-                {t("auth.or")}
+                <TranslatedText k="auth.or" />
               </span>
             </div>
           </div>
@@ -95,7 +97,7 @@ function RegisterForm() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
               <label htmlFor="fullName" className="text-sm font-medium">
-                {t("auth.fullName")}
+                <TranslatedText k="auth.fullName" />
               </label>
 
               <Input
@@ -112,7 +114,7 @@ function RegisterForm() {
 
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium">
-                {t("auth.email")}
+                <TranslatedText k="auth.email" />
               </label>
 
               <Input
@@ -129,7 +131,7 @@ function RegisterForm() {
 
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm font-medium">
-                {t("auth.password")}
+                <TranslatedText k="auth.password" />
               </label>
 
               <Input
@@ -171,12 +173,12 @@ function RegisterForm() {
           </form>
 
           <p className="text-center text-sm text-muted-foreground">
-            {t("auth.haveAccount")}{" "}
+            <TranslatedText k="auth.haveAccount" />{" "}
             <Link
               href="/login"
               className="font-medium text-foreground underline-offset-4 hover:underline"
             >
-              {t("auth.signIn")}
+              <TranslatedText k="auth.signIn" />
             </Link>
           </p>
         </div>

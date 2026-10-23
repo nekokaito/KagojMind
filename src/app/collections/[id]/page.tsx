@@ -4,7 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, Folder } from "lucide-react";
 
 import { CollectionWorkspace } from "@/components/collections/collection-workspace";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getCurrentUser } from "@/lib/supabase/server";
 
 export default async function CollectionPage({
   params,
@@ -15,7 +15,7 @@ export default async function CollectionPage({
 
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = await getCurrentUser();
 
   if (!user) {
     redirect("/login");

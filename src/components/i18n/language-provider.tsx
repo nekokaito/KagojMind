@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useSyncExternalStore,
   type ReactNode,
 } from "react";
@@ -32,10 +33,15 @@ let memoryLanguage: Language | null = null;
 
 function subscribe(callback: () => void) {
   listeners.add(callback);
-  window.addEventListener("storage", callback);
+  const onStorage = (event: StorageEvent) => {
+    if (event.key !== null && event.key !== LANGUAGE_STORAGE_KEY) return;
+    memoryLanguage = null;
+    callback();
+  };
+  window.addEventListener("storage", onStorage);
   return () => {
     listeners.delete(callback);
-    window.removeEventListener("storage", callback);
+    window.removeEventListener("storage", onStorage);
   };
 }
 
@@ -43,9 +49,13 @@ function getSnapshot(): Language {
   if (memoryLanguage) return memoryLanguage;
   try {
     const saved = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
-    if (saved === "en" || saved === "bn") return saved;
+    if (saved === "en" || saved === "bn") {
+      memoryLanguage = saved;
+      return saved;
+    }
   } catch {}
-  return "en";
+  memoryLanguage = "en";
+  return memoryLanguage;
 }
 
 function getServerSnapshot(): Language {
@@ -67,10 +77,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   );
 
   const setLanguage = useCallback((nextLanguage: Language) => {
+    if (nextLanguage === getSnapshot()) return;
     memoryLanguage = nextLanguage;
     try {
       window.localStorage.setItem(LANGUAGE_STORAGE_KEY, nextLanguage);
     } catch {}
+    document.documentElement.lang = nextLanguage;
     listeners.forEach((listener) => listener());
   }, []);
 
@@ -83,10 +95,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = language === "bn" ? "bn" : "en";
   }, [language]);
 
+  const value = useMemo(
+    () => ({ language, setLanguage, t, isLanguageReady }),
+    [language, setLanguage, t, isLanguageReady],
+  );
+
   return (
-    <LanguageContext.Provider
-      value={{ language, setLanguage, t, isLanguageReady }}
-    >
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );

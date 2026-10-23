@@ -1,13 +1,13 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowRight, Sparkles } from "lucide-react";
 
-import { useLanguage } from "@/components/i18n/language-provider";
 
 export function LandingCTA() {
-  const { t } = useLanguage();
 
   return (
     <section className="px-5 py-24 sm:px-8 lg:py-32">
@@ -35,16 +35,16 @@ export function LandingCTA() {
             <Sparkles className="size-6" />
           </div>
           <h2 className="mx-auto max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-            {t("landing.ctaTitle")}
+            <TranslatedText k="landing.ctaTitle" />
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-muted-foreground">
-            {t("landing.ctaDescription")}
+            <TranslatedText k="landing.ctaDescription" />
           </p>
           <Link
             href="/assistant"
             className="group mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/15 transition-all hover:-translate-y-0.5 hover:shadow-xl"
           >
-            {t("landing.start")}
+            <TranslatedText k="landing.start" />
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>

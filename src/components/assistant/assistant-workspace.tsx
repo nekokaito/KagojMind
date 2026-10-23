@@ -1,5 +1,7 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import Link from "next/link";
 
 import { useLanguage } from "@/components/i18n/language-provider";
@@ -202,9 +204,9 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
             </div>
 
             <div>
-              <h1 className="text-sm font-semibold">{t("assistant.title")}</h1>
+              <h1 className="text-sm font-semibold"><TranslatedText k="assistant.title" /></h1>
               <p className="text-xs text-muted-foreground">
-                {t("assistant.askAboutDocuments")}
+                <TranslatedText k="assistant.askAboutDocuments" />
               </p>
             </div>
           </div>
@@ -217,17 +219,17 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
             </div>
 
             <h2 className="text-xl font-semibold tracking-tight">
-              {t("assistant.noDocumentReady")}
+              <TranslatedText k="assistant.noDocumentReady" />
             </h2>
 
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              {t("assistant.uploadFirst")}
+              <TranslatedText k="assistant.uploadFirst" />
             </p>
 
             <Button className="mt-6" asChild>
               <Link href="/documents">
                 <FileText className="mr-2 size-4" />
-                {t("assistant.goDocuments")}
+                <TranslatedText k="assistant.goDocuments" />
               </Link>
             </Button>
           </div>
@@ -247,10 +249,10 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
           </div>
 
           <div className="min-w-0">
-            <h1 className="text-sm font-semibold">{t("assistant.title")}</h1>
+            <h1 className="text-sm font-semibold"><TranslatedText k="assistant.title" /></h1>
 
             <p className="hidden text-xs text-muted-foreground sm:block">
-              {t("assistant.exploreDocuments")}
+              <TranslatedText k="assistant.exploreDocuments" />
             </p>
           </div>
         </div>
@@ -293,7 +295,7 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
                   {selectedDocument.page_count
                     ? `${selectedDocument.page_count} ${t("documents.pages")}`
                     : t("common.file")}{" "}
-                  · {t("assistant.readyForQuestions")}
+                  · <TranslatedText k="assistant.readyForQuestions" />
                 </p>
               </div>
 
@@ -301,7 +303,7 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
                 variant="secondary"
                 className="hidden shrink-0 sm:inline-flex"
               >
-                {t("documents.ready")}
+                <TranslatedText k="documents.ready" />
               </Badge>
             </div>
           )}
@@ -332,7 +334,7 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
                     <div className="rounded-2xl border bg-muted/30 px-4 py-3">
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Loader2 className="size-4 animate-spin" />
-                        <span>{t("assistant.reading")}</span>
+                        <span><TranslatedText k="assistant.reading" /></span>
                       </div>
                     </div>
                   </div>
@@ -378,7 +380,7 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
 
               <div className="flex items-center justify-between px-2 pb-1">
                 <p className="hidden text-xs text-muted-foreground sm:block">
-                  {t("assistant.enterToSend")}
+                  <TranslatedText k="assistant.enterToSend" />
                 </p>
 
                 <Button
@@ -393,13 +395,13 @@ export function AssistantWorkspace({ documents }: AssistantWorkspaceProps) {
                     <Send className="size-4" />
                   )}
 
-                  <span className="sr-only">{t("assistant.send")}</span>
+                  <span className="sr-only"><TranslatedText k="assistant.send" /></span>
                 </Button>
               </div>
             </form>
 
             <p className="mt-2 text-center text-[11px] text-muted-foreground">
-              {t("assistant.documentAnswers")}
+              <TranslatedText k="assistant.documentAnswers" />
             </p>
           </div>
         </div>
@@ -427,11 +429,11 @@ function EmptyState({
       </div>
 
       <h2 className="text-center text-2xl font-semibold tracking-tight">
-        {t("assistant.emptyTitle")}
+        <TranslatedText k="assistant.emptyTitle" />
       </h2>
 
       <p className="mt-2 max-w-md text-center text-sm leading-6 text-muted-foreground">
-        {t("assistant.emptyDescription")}
+        <TranslatedText k="assistant.emptyDescription" />
       </p>
 
       <div className="mt-8 grid w-full max-w-2xl gap-2 sm:grid-cols-3">
@@ -461,7 +463,6 @@ function MessageBubble({
   onCopy: (message: Message) => void;
   copied: boolean;
 }) {
-  const { t } = useLanguage();
   const isUser = message.role === "user";
 
   return (
@@ -494,12 +495,12 @@ function MessageBubble({
               {copied ? (
                 <>
                   <Check className="mr-1.5 size-3.5" />
-                  {t("common.copied")}
+                  <TranslatedText k="common.copied" />
                 </>
               ) : (
                 <>
                   <Clipboard className="mr-1.5 size-3.5" />
-                  {t("common.copy")}
+                  <TranslatedText k="common.copy" />
                 </>
               )}
             </Button>
@@ -521,11 +522,10 @@ function MessageBubble({
 }
 
 function SourceList({ sources }: { sources: Source[] }) {
-  const { t } = useLanguage();
   return (
     <div className="mt-3">
       <p className="mb-2 text-xs font-medium text-muted-foreground">
-        {t("assistant.sources")}
+        <TranslatedText k="assistant.sources" />
       </p>
 
       <div className="flex flex-wrap gap-2">

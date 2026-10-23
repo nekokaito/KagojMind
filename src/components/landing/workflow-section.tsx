@@ -1,10 +1,11 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowRight, UploadCloud, BrainCircuit, MessageSquareText } from "lucide-react";
 
-import { useLanguage } from "@/components/i18n/language-provider";
 
 const steps = [
   {
@@ -28,7 +29,6 @@ const steps = [
 ] as const;
 
 export function WorkflowSection() {
-  const { t } = useLanguage();
 
   return (
     <section id="how-it-works" className="border-y border-border/70 bg-muted/20">
@@ -41,19 +41,19 @@ export function WorkflowSection() {
             transition={{ duration: 0.6 }}
           >
             <p className="mb-3 text-sm font-semibold text-primary">
-              {t("landing.workflowEyebrow")}
+              <TranslatedText k="landing.workflowEyebrow" />
             </p>
             <h2 className="max-w-xl text-3xl font-bold tracking-tight sm:text-4xl">
-              {t("landing.workflowTitle")}
+              <TranslatedText k="landing.workflowTitle" />
             </h2>
             <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground">
-              {t("landing.workflowDescription")}
+              <TranslatedText k="landing.workflowDescription" />
             </p>
             <Link
               href="/assistant"
               className="group mt-7 inline-flex items-center gap-2 text-sm font-semibold text-primary"
             >
-              {t("landing.exploreAssistant")}
+              <TranslatedText k="landing.exploreAssistant" />
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </motion.div>
@@ -73,11 +73,11 @@ export function WorkflowSection() {
                 </div>
                 <div>
                   <p className="text-xs font-medium text-muted-foreground">
-                    {t("landing.step")} {number}
+                    <TranslatedText k="landing.step" /> {number}
                   </p>
-                  <h3 className="mt-1 text-sm font-semibold">{t(title)}</h3>
+                  <h3 className="mt-1 text-sm font-semibold"><TranslatedText k={title} /></h3>
                   <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                    {t(description)}
+                    <TranslatedText k={description} />
                   </p>
                 </div>
               </motion.div>

@@ -1,6 +1,7 @@
 "use client";
 
-import { useLanguage } from "@/components/i18n/language-provider";
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 
 import Link from "next/link";
 import { useState } from "react";
@@ -55,7 +56,6 @@ export function CollectionWorkspace({
   collection,
   initialDocuments,
 }: CollectionWorkspaceProps) {
-  const { t } = useLanguage();
   const [documents, setDocuments] = useState<Document[]>(initialDocuments);
 
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -223,7 +223,7 @@ export function CollectionWorkspace({
           }}
         >
           <Plus className="size-4" />
-          {t("collections.addDocuments")}
+          <TranslatedText k="collections.addDocuments" />
         </Button>
       </div>
 
@@ -244,10 +244,10 @@ export function CollectionWorkspace({
               <FileText className="size-6 text-muted-foreground" />
             </div>
 
-            <h2 className="mt-5 font-semibold">{t("collections.emptyCollection")}</h2>
+            <h2 className="mt-5 font-semibold"><TranslatedText k="collections.emptyCollection" /></h2>
 
             <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-              {t("collections.createDescription")}
+              <TranslatedText k="collections.createDescription" />
             </p>
 
             <Button
@@ -257,7 +257,7 @@ export function CollectionWorkspace({
               }}
             >
               <Plus className="size-4" />
-              {t("collections.addDocuments")}
+              <TranslatedText k="collections.addDocuments" />
             </Button>
           </div>
         </Card>
@@ -280,10 +280,10 @@ export function CollectionWorkspace({
       <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>{t("collections.addDocuments")}</DialogTitle>
+            <DialogTitle><TranslatedText k="collections.addDocuments" /></DialogTitle>
 
             <DialogDescription>
-              {t("collections.chooseReady")}
+              <TranslatedText k="collections.chooseReady" />
             </DialogDescription>
           </DialogHeader>
 
@@ -297,11 +297,11 @@ export function CollectionWorkspace({
                 <FileText className="mx-auto size-6 text-muted-foreground" />
 
                 <p className="mt-3 text-sm font-medium">
-                  {t("collections.noDocuments")}
+                  <TranslatedText k="collections.noDocuments" />
                 </p>
 
                 <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                  {t("collections.uploadProcessFirst")}
+                  <TranslatedText k="collections.uploadProcessFirst" />
                 </p>
               </div>
             ) : (
@@ -342,7 +342,7 @@ export function CollectionWorkspace({
                       ) : (
                         <Plus className="size-4" />
                       )}
-                      {t("collections.add")}
+                      <TranslatedText k="collections.add" />
                     </Button>
                   </div>
                 ))}
@@ -357,7 +357,7 @@ export function CollectionWorkspace({
                 setIsAddOpen(false);
               }}
             >
-              {t("collections.done")}
+              <TranslatedText k="collections.done" />
             </Button>
           </DialogFooter>
         </DialogContent>

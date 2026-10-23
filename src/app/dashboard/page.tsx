@@ -1,6 +1,6 @@
 import { TranslatedText } from "@/components/i18n/translated-text";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getCurrentUser } from "@/lib/supabase/server";
 import { DocumentUpload } from "@/components/documents/document-upload";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { RecentDocuments } from "@/components/dashboard/recent-documents";
@@ -14,7 +14,7 @@ export default async function DashboardPage() {
   const {
     data: { user },
     error: authError,
-  } = await supabase.auth.getUser();
+  } = await getCurrentUser();
 
   if (authError || !user) {
     redirect("/login");

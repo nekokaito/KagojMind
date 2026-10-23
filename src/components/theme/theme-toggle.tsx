@@ -1,8 +1,10 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import { useLanguage } from "@/components/i18n/language-provider";
 
-import { useSyncExternalStore } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import { Monitor, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
@@ -17,6 +19,24 @@ import {
 export function ThemeToggle() {
   const { t } = useLanguage();
   const { setTheme } = useTheme();
+  const transitionTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => {
+    if (transitionTimer.current) clearTimeout(transitionTimer.current);
+    document.documentElement.classList.remove("theme-transition");
+  }, []);
+
+  const changeTheme = (theme: string) => {
+    if (transitionTimer.current) clearTimeout(transitionTimer.current);
+    document.documentElement.classList.add("theme-transition");
+    // Establish the transition rules before next-themes updates the root class.
+    void document.documentElement.offsetWidth;
+    setTheme(theme);
+    transitionTimer.current = setTimeout(() => {
+      document.documentElement.classList.remove("theme-transition");
+      transitionTimer.current = null;
+    }, 250);
+  };
   const mounted = useSyncExternalStore(
     () => () => {},
     () => true,
@@ -46,19 +66,19 @@ export function ThemeToggle() {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
+        <DropdownMenuItem onClick={() => changeTheme("light")}>
           <Sun className="mr-2 size-4" />
-          {t("settings.light")}
+          <TranslatedText k="settings.light" />
         </DropdownMenuItem>
 
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
+        <DropdownMenuItem onClick={() => changeTheme("dark")}>
           <Moon className="mr-2 size-4" />
-          {t("settings.dark")}
+          <TranslatedText k="settings.dark" />
         </DropdownMenuItem>
 
-        <DropdownMenuItem onClick={() => setTheme("system")}>
+        <DropdownMenuItem onClick={() => changeTheme("system")}>
           <Monitor className="mr-2 size-4" />
-          {t("settings.system")}
+          <TranslatedText k="settings.system" />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

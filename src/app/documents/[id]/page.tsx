@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { AiSummary } from "@/components/documents/ai-summary";
 
 import { DocumentViewer } from "@/components/documents/document-viewer";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getCurrentUser } from "@/lib/supabase/server";
 
 export default async function DocumentPage({
   params,
@@ -14,7 +14,7 @@ export default async function DocumentPage({
 
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = await getCurrentUser();
 
   if (!user) {
     redirect("/login");

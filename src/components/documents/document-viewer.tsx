@@ -1,5 +1,7 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import { useLanguage } from "@/components/i18n/language-provider";
 
 import Link from "next/link";
@@ -54,7 +56,7 @@ export function DocumentViewer({ document, signedUrl }: DocumentViewerProps) {
           <Button variant="ghost" size="icon" asChild className="shrink-0">
             <Link href="/documents">
               <ArrowLeft className="size-4" />
-              <span className="sr-only">{t("documents.backToDocuments")}</span>
+              <span className="sr-only"><TranslatedText k="documents.backToDocuments" /></span>
             </Link>
           </Button>
 
@@ -79,12 +81,12 @@ export function DocumentViewer({ document, signedUrl }: DocumentViewerProps) {
 
         <div className="flex items-center gap-2">
           <Badge variant="secondary" className="hidden sm:inline-flex">
-            {t("documents.ready")}
+            <TranslatedText k="documents.ready" />
           </Badge>
 
           <Button variant="outline" size="sm" onClick={handleAskAI}>
             <Bot className="mr-2 size-4" />
-            {t("assistant.title")}
+            <TranslatedText k="assistant.title" />
           </Button>
 
           <Button variant="ghost" size="icon" asChild>
@@ -95,13 +97,13 @@ export function DocumentViewer({ document, signedUrl }: DocumentViewerProps) {
               rel="noreferrer"
             >
               <Download className="size-4" />
-              <span className="sr-only">{t("documents.download")}</span>
+              <span className="sr-only"><TranslatedText k="documents.download" /></span>
             </a>
           </Button>
 
           <Button variant="ghost" size="icon">
             <MoreHorizontal className="size-4" />
-            <span className="sr-only">{t("documents.moreOptions")}</span>
+            <span className="sr-only"><TranslatedText k="documents.moreOptions" /></span>
           </Button>
         </div>
       </header>
@@ -125,17 +127,17 @@ export function DocumentViewer({ document, signedUrl }: DocumentViewerProps) {
                   </div>
 
                   <h2 className="mt-5 text-lg font-semibold">
-                    {t("documents.previewUnavailable")}
+                    <TranslatedText k="documents.previewUnavailable" />
                   </h2>
 
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    {t("documents.previewUnavailableDescription")}
+                    <TranslatedText k="documents.previewUnavailableDescription" />
                   </p>
 
                   <Button className="mt-5" asChild>
                     <a href={signedUrl} download={document.file_name}>
                       <Download className="mr-2 size-4" />
-                      {t("documents.download")}
+                      <TranslatedText k="documents.download" />
                     </a>
                   </Button>
                 </div>
@@ -147,7 +149,7 @@ export function DocumentViewer({ document, signedUrl }: DocumentViewerProps) {
         {/* Details */}
         <aside className="hidden w-72 shrink-0 border-l bg-background xl:block">
           <div className="p-5">
-            <h2 className="text-sm font-semibold">{t("documents.details")}</h2>
+            <h2 className="text-sm font-semibold"><TranslatedText k="documents.details" /></h2>
 
             <div className="mt-5 space-y-5">
               <Detail label={t("documents.fileName")} value={document.file_name} />

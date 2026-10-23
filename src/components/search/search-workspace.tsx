@@ -1,5 +1,7 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import { useLanguage } from "@/components/i18n/language-provider";
 
 import Link from "next/link";
@@ -138,7 +140,7 @@ export function SearchWorkspace({ initialQuery = "" }: SearchWorkspaceProps) {
           <div className="mb-4 flex items-center justify-between gap-4">
             <div className="min-w-0">
               <p className="text-sm text-muted-foreground">
-                {t("search.resultsFor")}
+                <TranslatedText k="search.resultsFor" />
               </p>
 
               <p className="mt-1 truncate font-medium">
@@ -157,10 +159,10 @@ export function SearchWorkspace({ initialQuery = "" }: SearchWorkspaceProps) {
                 <Sparkles className="size-5" />
               </div>
 
-              <h3 className="mt-4 font-medium">{t("search.noRelevantResults")}</h3>
+              <h3 className="mt-4 font-medium"><TranslatedText k="search.noRelevantResults" /></h3>
 
               <p className="mt-1 max-w-md text-sm text-muted-foreground">
-                {t("search.tryDifferent")}
+                <TranslatedText k="search.tryDifferent" />
               </p>
             </Card>
           ) : (
@@ -227,11 +229,11 @@ export function SearchWorkspace({ initialQuery = "" }: SearchWorkspaceProps) {
             </div>
 
             <h2 className="mt-5 text-lg font-semibold">
-              {t("search.searchKnowledge")}
+              <TranslatedText k="search.searchKnowledge" />
             </h2>
 
             <p className="mt-2 max-w-lg text-sm leading-6 text-muted-foreground">
-              {t("search.searchDescription")}
+              <TranslatedText k="search.searchDescription" />
             </p>
 
             <div className="mt-6 flex flex-wrap justify-center gap-2">

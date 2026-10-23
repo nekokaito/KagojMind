@@ -276,6 +276,20 @@ Potential future improvements:
 -   Automated tests for authentication, authorization, and document
     processing
 
+## Performance and caching
+
+Public images under `/brand`, `/diagram`, and `/author` use a one-hour browser
+cache with up to one day of stale-while-revalidate. Use a new filename when
+replacing an image that must appear immediately. Restart the server after
+changing cache headers in `next.config.ts`.
+
+Server pages and layouts share request-scoped authentication results through
+`getCurrentUser()`. The cache resets for every request; private documents and
+authenticated responses are not placed in a shared public cache.
+
+Measure performance with `npm run build` followed by `npm start`; development
+mode includes compilation and debugging overhead.
+
 ## Contributing
 
 Contributions and suggestions are welcome.

@@ -1,5 +1,7 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -186,7 +188,7 @@ export function AppSidebar() {
             <span className="font-semibold tracking-tight">কাগজ Mind</span>
 
             <span className="text-[11px] text-muted-foreground">
-              {t("brand.tagline")}
+              <TranslatedText k="brand.tagline" />
             </span>
           </div>
         </Link>
@@ -195,7 +197,7 @@ export function AppSidebar() {
       {/* Navigation */}
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>{t("nav.workspace")}</SidebarGroupLabel>
+          <SidebarGroupLabel><TranslatedText k="nav.workspace" /></SidebarGroupLabel>
 
           <SidebarGroupContent>
             <SidebarMenu>
@@ -227,7 +229,7 @@ export function AppSidebar() {
 
         {/* Account navigation */}
         <SidebarGroup>
-          <SidebarGroupLabel>{t("nav.account")}</SidebarGroupLabel>
+          <SidebarGroupLabel><TranslatedText k="nav.account" /></SidebarGroupLabel>
 
           <SidebarGroupContent>
             <SidebarMenu>
@@ -242,7 +244,7 @@ export function AppSidebar() {
                 >
                   <Link href="/settings">
                     <Settings />
-                    <span>{t("nav.settings")}</span>
+                    <span><TranslatedText k="nav.settings" /></span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -310,7 +312,7 @@ export function AppSidebar() {
                 {/* Settings */}
                 <DropdownMenuItem onSelect={() => router.push("/settings")}>
                   <Settings className="mr-2 size-4" />
-                  {t("nav.settings")}
+                  <TranslatedText k="nav.settings" />
                 </DropdownMenuItem>
 
                 <DropdownMenuSeparator />

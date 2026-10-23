@@ -1,14 +1,14 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, CodeXml } from "lucide-react";
 
 import { KagojMindLogo } from "@/components/brand/kagojmind-logo";
-import { useLanguage } from "@/components/i18n/language-provider";
 
 export function LandingFooter() {
-  const { t } = useLanguage();
 
   return (
     <footer className="border-t border-border/70 bg-muted/20">
@@ -19,7 +19,7 @@ export function LandingFooter() {
             <span className="text-lg font-bold tracking-tight">কাগজ Mind</span>
           </Link>
           <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-            {t("landing.footerTagline")}
+            <TranslatedText k="landing.footerTagline" />
           </p>
         </div>
 
@@ -35,7 +35,7 @@ export function LandingFooter() {
           </div>
 
           <div className="min-w-0 flex-1">
-            <p className="text-xs text-muted-foreground">{t("landing.madeBy")}</p>
+            <p className="text-xs text-muted-foreground"><TranslatedText k="landing.madeBy" /></p>
             <p className="truncate text-sm font-semibold text-foreground">
               Siddiq Sazzad
             </p>
@@ -57,7 +57,7 @@ export function LandingFooter() {
 
       <div className="border-t border-border/50">
         <div className="mx-auto max-w-7xl px-5 py-4 text-center text-xs text-muted-foreground sm:px-8 md:text-left">
-          © {new Date().getFullYear()} KagojMind. {t("landing.footerRights")}
+          © {new Date().getFullYear()} KagojMind. <TranslatedText k="landing.footerRights" />
         </div>
       </div>
     </footer>

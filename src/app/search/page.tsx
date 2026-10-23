@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { SearchWorkspace } from "@/components/search/search-workspace";
-import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/supabase/server";
 
 export default async function SearchPage({
   searchParams,
@@ -12,11 +12,9 @@ export default async function SearchPage({
 
   const initialQuery = typeof params.q === "string" ? params.q : "";
 
-  const supabase = await createClient();
-
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = await getCurrentUser();
 
   if (!user) {
     redirect("/login");

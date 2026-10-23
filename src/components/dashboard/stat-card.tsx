@@ -1,8 +1,9 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import { FileText, FileCheck2, MessageSquare } from "lucide-react";
 
-import { useLanguage } from "@/components/i18n/language-provider";
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -27,7 +28,6 @@ export function StatCard({
   descriptionKey,
   icon,
 }: StatCardProps) {
-  const { t } = useLanguage();
   const Icon = icons[icon];
 
   return (
@@ -35,14 +35,14 @@ export function StatCard({
       <CardContent className="p-5">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-sm text-muted-foreground">{t(titleKey)}</p>
+            <p className="text-sm text-muted-foreground"><TranslatedText k={titleKey} /></p>
 
             <p className="mt-2 text-2xl font-semibold tracking-tight">
               {value}
             </p>
 
             <p className="mt-1 text-xs text-muted-foreground">
-              {t(descriptionKey)}
+              <TranslatedText k={descriptionKey} />
             </p>
           </div>
 

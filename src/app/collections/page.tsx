@@ -1,13 +1,13 @@
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { CollectionsWorkspace } from "@/components/collections/collections-workspace";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getCurrentUser } from "@/lib/supabase/server";
 
 export default async function CollectionsPage() {
   const supabase = await createClient();
 
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = await getCurrentUser();
 
   if (!user) {
     return null;

@@ -1,7 +1,8 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import { BrainCircuit, FileText, Search, ShieldCheck } from "lucide-react";
-import { useLanguage } from "@/components/i18n/language-provider";
 
 const values = [
   { icon: BrainCircuit, label: "landing.valueAI" },
@@ -11,7 +12,6 @@ const values = [
 ] as const;
 
 export function ValueStrip() {
-  const { t } = useLanguage();
 
   return (
     <section className="border-y border-border/70 bg-muted/20">
@@ -22,7 +22,7 @@ export function ValueStrip() {
             className="flex items-center justify-center gap-2.5 text-center text-xs font-medium text-muted-foreground sm:text-sm"
           >
             <Icon className="size-4 shrink-0 text-primary" />
-            {t(label)}
+            <TranslatedText k={label} />
           </div>
         ))}
       </div>

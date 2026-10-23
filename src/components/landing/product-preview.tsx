@@ -1,5 +1,7 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import { motion } from "motion/react";
 import {
   BrainCircuit,
@@ -14,11 +16,9 @@ import {
 } from "lucide-react";
 
 import { KagojMindLogo } from "@/components/brand/kagojmind-logo";
-import { useLanguage } from "@/components/i18n/language-provider";
 import type { TranslationKey } from "@/lib/i18n/translations";
 
 export function ProductPreview() {
-  const { t } = useLanguage();
 
   const previewPoints: TranslationKey[] = [
     "landing.previewPointOne",
@@ -63,11 +63,11 @@ export function ProductPreview() {
           <aside className="border-r border-border bg-muted/30 p-3 sm:p-4">
             <div className="mb-5 flex items-center gap-2 rounded-lg bg-primary/10 px-2.5 py-2 text-xs font-medium text-primary">
               <Layers3 className="size-3.5" />
-              {t("landing.previewWorkspace")}
+              <TranslatedText k="landing.previewWorkspace" />
             </div>
 
             <p className="mb-2 px-2 text-[9px] font-semibold uppercase tracking-[0.15em] text-muted-foreground sm:text-[10px]">
-              {t("landing.previewLibrary")}
+              <TranslatedText k="landing.previewLibrary" />
             </p>
 
             <div className="space-y-1.5">
@@ -90,7 +90,7 @@ export function ProductPreview() {
             <div className="mt-8 rounded-xl border border-dashed border-border p-2.5 text-center sm:p-3">
               <UploadCloud className="mx-auto mb-1.5 size-4 text-muted-foreground" />
               <p className="text-[9px] leading-4 text-muted-foreground sm:text-[10px]">
-                {t("landing.previewUpload")}
+                <TranslatedText k="landing.previewUpload" />
               </p>
             </div>
           </aside>
@@ -99,17 +99,17 @@ export function ProductPreview() {
             <div className="mb-5 flex items-center justify-between gap-2">
               <div className="min-w-0">
                 <p className="truncate text-xs font-semibold sm:text-sm">
-                  {t("landing.previewDocumentTitle")}
+                  <TranslatedText k="landing.previewDocumentTitle" />
                 </p>
 
                 <p className="mt-1 text-[10px] text-muted-foreground">
-                  PDF · 12 {t("landing.previewPages")}
+                  PDF · 12 <TranslatedText k="landing.previewPages" />
                 </p>
               </div>
 
               <span className="flex shrink-0 items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-1 text-[9px] font-medium text-emerald-600 dark:text-emerald-400 sm:text-[10px]">
                 <Check className="size-3" />
-                {t("landing.previewIndexed")}
+                <TranslatedText k="landing.previewIndexed" />
               </span>
             </div>
 
@@ -121,11 +121,11 @@ export function ProductPreview() {
 
                 <div>
                   <p className="text-xs font-semibold">
-                    {t("landing.previewSummary")}
+                    <TranslatedText k="landing.previewSummary" />
                   </p>
 
                   <p className="text-[9px] text-muted-foreground">
-                    {t("landing.previewGenerated")}
+                    <TranslatedText k="landing.previewGenerated" />
                   </p>
                 </div>
               </div>
@@ -142,7 +142,7 @@ export function ProductPreview() {
                     <Check className="mt-0.5 size-3.5 shrink-0 text-primary" />
 
                     <p className="text-[10px] leading-5 text-muted-foreground sm:text-xs">
-                      {t(key)}
+                      <TranslatedText k={key} />
                     </p>
                   </div>
                 ))}
@@ -159,7 +159,7 @@ export function ProductPreview() {
                 <MessageSquareText className="size-3.5 text-primary" />
 
                 <p className="text-[10px] font-semibold sm:text-xs">
-                  {t("landing.previewQuestion")}
+                  <TranslatedText k="landing.previewQuestion" />
                 </p>
               </div>
 
@@ -169,13 +169,13 @@ export function ProductPreview() {
                 </div>
 
                 <p className="text-[10px] leading-5 text-muted-foreground sm:text-xs">
-                  {t("landing.previewAnswer")}
+                  <TranslatedText k="landing.previewAnswer" />
                 </p>
               </div>
 
               <div className="mt-2 flex items-center gap-1.5 text-[9px] font-medium text-primary">
                 <FileSearch className="size-3" />
-                {t("landing.previewSource")}
+                <TranslatedText k="landing.previewSource" />
               </div>
             </motion.div>
           </div>
@@ -197,11 +197,11 @@ export function ProductPreview() {
 
         <div>
           <p className="text-xs font-semibold">
-            {t("landing.floatingBadgeTitle")}
+            <TranslatedText k="landing.floatingBadgeTitle" />
           </p>
 
           <p className="mt-0.5 text-[10px] text-muted-foreground">
-            {t("landing.floatingBadgeDescription")}
+            <TranslatedText k="landing.floatingBadgeDescription" />
           </p>
         </div>
       </motion.div>

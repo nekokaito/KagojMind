@@ -1,5 +1,7 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import Link from "next/link";
 import { ArrowUpRight, LayoutDashboard, LogOut } from "lucide-react";
 
@@ -47,20 +49,20 @@ export function LandingNavbar({
             href="#features"
             className="text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
-            {t("landing.navFeatures")}
+            <TranslatedText k="landing.navFeatures" />
           </a>
 
           <a
             href="#how-it-works"
             className="text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
-            {t("landing.navHowItWorks")}
+            <TranslatedText k="landing.navHowItWorks" />
           </a>
           <a
             href="#how-rag-works"
             className="text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
-            {t("landing.navHowRagWorks")}
+            <TranslatedText k="landing.navHowRagWorks" />
           </a>
         </nav>
 
@@ -77,7 +79,7 @@ export function LandingNavbar({
                 className="hidden items-center gap-2 rounded-lg border border-border px-3.5 py-2 text-sm font-medium transition-colors hover:bg-muted sm:inline-flex"
               >
                 <LayoutDashboard className="size-4" />
-                {t("landing.dashboard")}
+                <TranslatedText k="landing.dashboard" />
               </Link>
               <LanguageToggle />
               <ThemeToggle />
@@ -101,13 +103,13 @@ export function LandingNavbar({
                 href="/login"
                 className="hidden rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-muted sm:inline-flex"
               >
-                {t("landing.login")}
+                <TranslatedText k="landing.login" />
               </Link>
               <Link
                 href="/register"
                 className="inline-flex items-center gap-2 rounded-lg bg-primary px-3.5 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:opacity-90 active:scale-[0.98] sm:px-4"
               >
-                {t("landing.signup")}
+                <TranslatedText k="landing.signup" />
                 <ArrowUpRight className="size-4" />
               </Link>
             </>

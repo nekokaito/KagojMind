@@ -1,5 +1,7 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import { useLanguage } from "@/components/i18n/language-provider";
 
 import { useState } from "react";
@@ -184,12 +186,12 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
       {/* Page heading */}
       <div>
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight">{t("settings.title")}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">{t("settings.subtitle")}</p>
+          <h1 className="text-3xl font-semibold tracking-tight"><TranslatedText k="settings.title" /></h1>
+          <p className="mt-1 text-sm text-muted-foreground"><TranslatedText k="settings.subtitle" /></p>
         </div>
 
         <p className="mt-2 text-sm text-muted-foreground">
-          {t("settings.manageDescription")}
+          <TranslatedText k="settings.manageDescription" />
         </p>
       </div>
 
@@ -202,10 +204,10 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
             </div>
 
             <div>
-              <h2 className="font-semibold">{t("settings.profile")}</h2>
+              <h2 className="font-semibold"><TranslatedText k="settings.profile" /></h2>
 
               <p className="text-sm text-muted-foreground">
-                {t("settings.personalInfoDescription")}
+                <TranslatedText k="settings.personalInfoDescription" />
               </p>
             </div>
           </div>
@@ -227,7 +229,7 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
                 </p>
 
                 <p className="text-sm text-muted-foreground">
-                  {t("settings.privateProfile")}
+                  <TranslatedText k="settings.privateProfile" />
                 </p>
               </div>
             </div>
@@ -235,7 +237,7 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
             {/* Profile fields */}
             <div className="grid gap-5 md:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="full-name">{t("settings.fullName")}</Label>
+                <Label htmlFor="full-name"><TranslatedText k="settings.fullName" /></Label>
 
                 <Input
                   id="full-name"
@@ -249,7 +251,7 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">{t("settings.email")}</Label>
+                <Label htmlFor="email"><TranslatedText k="settings.email" /></Label>
 
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -285,10 +287,10 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
             </div>
 
             <div>
-              <h2 className="font-semibold">{t("settings.password")}</h2>
+              <h2 className="font-semibold"><TranslatedText k="settings.password" /></h2>
 
               <p className="text-sm text-muted-foreground">
-                {t("settings.keepSecure")}
+                <TranslatedText k="settings.keepSecure" />
               </p>
             </div>
           </div>
@@ -299,7 +301,7 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
         <CardContent className="pt-6">
           <form onSubmit={changePassword} className="max-w-xl space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="current-password">{t("settings.currentPassword")}</Label>
+              <Label htmlFor="current-password"><TranslatedText k="settings.currentPassword" /></Label>
 
               <Input
                 id="current-password"
@@ -312,7 +314,7 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="new-password">{t("settings.newPassword")}</Label>
+              <Label htmlFor="new-password"><TranslatedText k="settings.newPassword" /></Label>
 
               <Input
                 id="new-password"
@@ -324,12 +326,12 @@ export function SettingsWorkspace({ profile, email }: SettingsWorkspaceProps) {
               />
 
               <p className="text-xs text-muted-foreground">
-                {t("settings.useEightChars")}
+                <TranslatedText k="settings.useEightChars" />
               </p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirm-password">{t("settings.confirmPassword")}</Label>
+              <Label htmlFor="confirm-password"><TranslatedText k="settings.confirmPassword" /></Label>
 
               <Input
                 id="confirm-password"

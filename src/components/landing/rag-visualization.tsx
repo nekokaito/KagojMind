@@ -1,5 +1,7 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import {
@@ -87,15 +89,15 @@ export function RagVisualization() {
       <div className="mx-auto mb-12 max-w-2xl text-center">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-medium text-primary">
           <Sparkles className="size-3.5" />
-          {t("rag.eyebrow")}
+          <TranslatedText k="rag.eyebrow" />
         </div>
 
         <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          {t("rag.title")}
+          <TranslatedText k="rag.title" />
         </h2>
 
         <p className="mt-4 text-sm leading-7 text-muted-foreground sm:text-base">
-          {t("rag.description")}
+          <TranslatedText k="rag.description" />
         </p>
       </div>
 
@@ -132,10 +134,10 @@ export function RagVisualization() {
                     </span>
                   </div>
 
-                  <h3 className="text-sm font-semibold">{t(key)}</h3>
+                  <h3 className="text-sm font-semibold"><TranslatedText k={key} /></h3>
 
                   <p className="mt-1 min-h-10 text-xs leading-5 text-muted-foreground">
-                    {t(descriptionKeys[index])}
+                    <TranslatedText k={descriptionKeys[index]} />
                   </p>
 
                   <div className="mt-4 flex items-center gap-2 text-xs">
@@ -190,10 +192,10 @@ export function RagVisualization() {
 
               <div>
                 <h3 className="text-sm font-semibold">
-                  {t("rag.retrievedTitle")}
+                  <TranslatedText k="rag.retrievedTitle" />
                 </h3>
                 <p className="text-xs text-muted-foreground">
-                  {t("rag.retrievedSubtitle")}
+                  <TranslatedText k="rag.retrievedSubtitle" />
                 </p>
               </div>
             </div>
@@ -211,7 +213,7 @@ export function RagVisualization() {
                   <div className="rounded-xl border border-dashed border-border p-5 text-center">
                     <Database className="mx-auto mb-2 size-6 text-muted-foreground" />
                     <p className="text-xs text-muted-foreground">
-                      {t("rag.searching")}
+                      <TranslatedText k="rag.searching" />
                     </p>
                   </div>
                 ) : (
@@ -228,7 +230,7 @@ export function RagVisualization() {
                       <div className="flex items-center justify-between gap-2">
                         <span className="flex items-center gap-2 text-xs font-medium">
                           <FileText className="size-3.5 text-teal-600 dark:text-teal-400" />
-                          {t(chunk.title)}
+                          <TranslatedText k={chunk.title} />
                         </span>
 
                         <span className="rounded-md bg-teal-500/10 px-2 py-1 text-[10px] font-semibold text-teal-700 dark:text-teal-300">
@@ -237,7 +239,7 @@ export function RagVisualization() {
                       </div>
 
                       <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                        {t(chunk.text)}
+                        <TranslatedText k={chunk.text} />
                       </p>
                     </motion.div>
                   ))
@@ -246,7 +248,7 @@ export function RagVisualization() {
             </AnimatePresence>
 
             <p className="mt-3 text-[11px] leading-5 text-muted-foreground">
-              {t("rag.scoreNote")}
+              <TranslatedText k="rag.scoreNote" />
             </p>
           </div>
 
@@ -259,10 +261,10 @@ export function RagVisualization() {
 
               <div>
                 <h3 className="text-sm font-semibold">
-                  {t("rag.answerTitle")}
+                  <TranslatedText k="rag.answerTitle" />
                 </h3>
                 <p className="text-xs text-muted-foreground">
-                  {t("rag.answerSubtitle")}
+                  <TranslatedText k="rag.answerSubtitle" />
                 </p>
               </div>
 
@@ -271,10 +273,10 @@ export function RagVisualization() {
 
             <div className="rounded-xl border border-border bg-background p-3">
               <p className="text-xs font-medium text-muted-foreground">
-                {t("rag.questionLabel")}
+                <TranslatedText k="rag.questionLabel" />
               </p>
 
-              <p className="mt-1 text-sm font-medium">{t("rag.question")}</p>
+              <p className="mt-1 text-sm font-medium"><TranslatedText k="rag.question" /></p>
             </div>
 
             <AnimatePresence mode="wait">
@@ -288,18 +290,18 @@ export function RagVisualization() {
                   className="mt-4"
                 >
                   <p className="text-sm leading-6 text-foreground">
-                    {t("rag.answer")}
+                    <TranslatedText k="rag.answer" />
                   </p>
 
                   <div className="mt-4 flex flex-wrap items-center gap-2">
                     <span className="inline-flex items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/5 px-2.5 py-1.5 text-[11px] font-medium text-primary">
                       <FileSearch className="size-3.5" />
-                      {t("rag.sourceOne")}
+                      <TranslatedText k="rag.sourceOne" />
                     </span>
 
                     <span className="inline-flex items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/5 px-2.5 py-1.5 text-[11px] font-medium text-primary">
                       <FileSearch className="size-3.5" />
-                      {t("rag.sourceTwo")}
+                      <TranslatedText k="rag.sourceTwo" />
                     </span>
                   </div>
                 </motion.div>
@@ -312,7 +314,7 @@ export function RagVisualization() {
                   className="mt-4 flex items-center gap-2 rounded-xl border border-dashed border-border p-4 text-xs text-muted-foreground"
                 >
                   <Sparkles className="size-4 text-primary" />
-                  {t("rag.waitingForAnswer")}
+                  <TranslatedText k="rag.waitingForAnswer" />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -322,7 +324,7 @@ export function RagVisualization() {
         {/* Stage navigation */}
         <div className="relative mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-5">
           <p className="text-xs leading-5 text-muted-foreground">
-            {t("rag.footerNote")}
+            <TranslatedText k="rag.footerNote" />
           </p>
 
           <div className="flex items-center gap-2">

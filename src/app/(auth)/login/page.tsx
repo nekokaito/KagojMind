@@ -1,5 +1,7 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import { Suspense, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -54,10 +56,10 @@ function LoginForm() {
             কাগজMind
           </Link>
 
-          <h1 className="mt-8 text-2xl font-semibold">{t("auth.welcome")}</h1>
+          <h1 className="mt-8 text-2xl font-semibold"><TranslatedText k="auth.welcome" /></h1>
 
           <p className="mt-2 text-sm text-muted-foreground">
-            {t("auth.loginSubtitle")}
+            <TranslatedText k="auth.loginSubtitle" />
           </p>
         </div>
 
@@ -71,7 +73,7 @@ function LoginForm() {
 
             <div className="relative flex justify-center">
               <span className="bg-card px-3 text-xs text-muted-foreground">
-                {t("auth.or")}
+                <TranslatedText k="auth.or" />
               </span>
             </div>
           </div>
@@ -79,7 +81,7 @@ function LoginForm() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium">
-                {t("auth.email")}
+                <TranslatedText k="auth.email" />
               </label>
 
               <Input
@@ -96,7 +98,7 @@ function LoginForm() {
 
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm font-medium">
-                {t("auth.password")}
+                <TranslatedText k="auth.password" />
               </label>
 
               <Input
@@ -126,12 +128,12 @@ function LoginForm() {
           </form>
 
           <p className="text-center text-sm text-muted-foreground">
-            {t("auth.noAccount")}{" "}
+            <TranslatedText k="auth.noAccount" />{" "}
             <Link
               href="/register"
               className="font-medium text-foreground underline-offset-4 hover:underline"
             >
-              {t("auth.createAccount")}
+              <TranslatedText k="auth.createAccount" />
             </Link>
           </p>
         </div>

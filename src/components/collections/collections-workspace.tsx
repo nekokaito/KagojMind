@@ -1,5 +1,7 @@
 "use client";
 
+import { TranslatedText } from "@/components/i18n/translated-text";
+
 import { useLanguage } from "@/components/i18n/language-provider";
 
 import Link from "next/link";
@@ -186,12 +188,12 @@ export function CollectionsWorkspace({
             </div>
 
             <h1 className="text-2xl font-semibold tracking-tight">
-              {t("collections.title")}
+              <TranslatedText k="collections.title" />
             </h1>
           </div>
 
           <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
-            {t("collections.pageDescription")}
+            <TranslatedText k="collections.pageDescription" />
           </p>
         </div>
 
@@ -199,16 +201,16 @@ export function CollectionsWorkspace({
           <DialogTrigger asChild>
             <Button>
               <Plus className="size-4" />
-              {t("collections.new")}
+              <TranslatedText k="collections.new" />
             </Button>
           </DialogTrigger>
 
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
-              <DialogTitle>{t("collections.createTitle")}</DialogTitle>
+              <DialogTitle><TranslatedText k="collections.createTitle" /></DialogTitle>
 
               <DialogDescription>
-                {t("collections.createDescription")}
+                <TranslatedText k="collections.createDescription" />
               </DialogDescription>
             </DialogHeader>
 
@@ -233,7 +235,7 @@ export function CollectionsWorkspace({
                 onClick={() => setIsCreateOpen(false)}
                 disabled={isCreating}
               >
-                {t("collections.cancel")}
+                <TranslatedText k="collections.cancel" />
               </Button>
 
               <Button
@@ -241,7 +243,7 @@ export function CollectionsWorkspace({
                 disabled={isCreating || !newName.trim()}
               >
                 {isCreating && <Loader2 className="size-4 animate-spin" />}
-                {t("collections.createCollection")}
+                <TranslatedText k="collections.createCollection" />
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -322,14 +324,14 @@ function CollectionCard({
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={onRename}>
                 <Pencil className="size-4" />
-                {t("collections.rename")}
+                <TranslatedText k="collections.rename" />
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />
 
               <DropdownMenuItem variant="destructive" onClick={onDelete}>
                 <Trash2 className="size-4" />
-                {t("collections.delete")}
+                <TranslatedText k="collections.delete" />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -339,7 +341,7 @@ function CollectionCard({
           href={`/collections/${collection.id}`}
           className="mt-5 flex items-center justify-between border-t pt-4 text-xs font-medium text-muted-foreground transition-colors group-hover:text-foreground"
         >
-          {t("collections.open")}
+          <TranslatedText k="collections.open" />
           <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
         </Link>
       </div>
@@ -348,7 +350,6 @@ function CollectionCard({
 }
 
 function EmptyCollections({ onCreate }: { onCreate: () => void }) {
-  const { t } = useLanguage();
 
   return (
     <Card className="mt-8">
@@ -357,15 +358,15 @@ function EmptyCollections({ onCreate }: { onCreate: () => void }) {
           <Folder className="size-6 text-primary" />
         </div>
 
-        <h2 className="mt-5 text-lg font-semibold">{t("collections.noCollections")}</h2>
+        <h2 className="mt-5 text-lg font-semibold"><TranslatedText k="collections.noCollections" /></h2>
 
         <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-          {t("collections.emptyDescription")}
+          <TranslatedText k="collections.emptyDescription" />
         </p>
 
         <Button className="mt-6" onClick={onCreate}>
           <Plus className="size-4" />
-          {t("collections.create")}
+          <TranslatedText k="collections.create" />
         </Button>
       </div>
     </Card>
